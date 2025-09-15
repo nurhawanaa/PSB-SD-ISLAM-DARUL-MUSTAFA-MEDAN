@@ -21,9 +21,10 @@ class AdminAuthController extends Controller
             'password' => 'required',
         ]);
 
-        $admin = Admin::where('email', $request->email)->first();
-        if ($admin && Hash::check($request->password, $admin->password)) {
-            session(['admin_logged_in' => true, 'admin_id' => $admin->id]);
+        if (Auth::guard('admin')->attempt([
+            'email' => $request->email,
+            'password' => $request->password,
+        ])) {
             return redirect()->route('admin.dashboard');
         }
         return back()->withErrors(['login' => 'email atau password salah']);
@@ -31,7 +32,7 @@ class AdminAuthController extends Controller
 
     public function dashboard()
     {
-        if (!session('admin_logged_in')) {
+        if (!Auth::guard('admin')->check()) {
             return redirect()->route('admin.login');
         }
         $total_pendaftar = \App\Models\Pendaftaran::count();
@@ -40,9 +41,32 @@ class AdminAuthController extends Controller
         return view('admin_dashboard', compact('total_pendaftar', 'total_lulus', 'total_belum_lulus'));
     }
 
+    public function seleksi()
+    {
+        if (!Auth::guard('admin')->check()) {
+            return redirect()->route('admin.login');
+        }
+        $siswa = \App\Models\Pendaftaran::all();
+        return view('admin_seleksi', compact('siswa'));
+    }
+
+    public function updateSeleksi($id)
+    {
+        if (!Auth::guard('admin')->check()) {
+            return redirect()->route('admin.login');
+        }
+        $status = request('status');
+        $siswa = \App\Models\Pendaftaran::findOrFail($id);
+        $siswa->status = $status;
+        $siswa->save();
+        return redirect()->route('admin.seleksi');
+    }
+
     public function logout()
     {
-        session()->forget(['admin_logged_in', 'admin_id']);
+        Auth::guard('admin')->logout();
+        request()->session()->invalidate();
+        request()->session()->regenerateToken();
         return redirect()->route('admin.login');
     }
 }

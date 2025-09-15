@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Session;
 use Illuminate\Http\Request;
 use App\Http\Controllers\PendaftaranController;
 use App\Http\Controllers\AdminAuthController;
+use Illuminate\Support\Facades\Auth;
 
 // Halaman verifikasi reCAPTCHA
 Route::get('/pendaftaran/verifikasi', function () {
@@ -29,6 +30,13 @@ Route::post('/pendaftaran/verify', function (Request $request) {
 });
 
 // Proteksi akses form pendaftaran
+Route::get('/', function () {
+    if (!Session::get('recaptcha_verified')) {
+        return redirect()->route('pendaftaran.verifikasi');
+    }
+    return (new PendaftaranController())->showForm();
+})->name('pendaftaran.form');
+
 Route::get('/pendaftaran', function () {
     if (!Session::get('recaptcha_verified')) {
         return redirect()->route('pendaftaran.verifikasi');
@@ -45,8 +53,21 @@ Route::get('/pendaftaran/lulus', function () {
     return view('daftar_lulus', compact('siswa'));
 })->name('pendaftaran.lulus');
 
-// Login Admin
-Route::get('/admin/login', [AdminAuthController::class, 'showLoginForm'])->name('admin.login');
-Route::post('/admin/login', [AdminAuthController::class, 'login'])->name('admin.login.submit');
-Route::get('/admin/dashboard', [AdminAuthController::class, 'dashboard'])->name('admin.dashboard');
-Route::get('/admin/logout', [AdminAuthController::class, 'logout'])->name('admin.logout');
+
+// Login
+Route::get('/login', [AdminAuthController::class, 'showLoginForm'])->name('admin.login');
+Route::post('/login', [AdminAuthController::class, 'login'])->name('admin.login.submit');
+
+// ADMIN ROUTES
+Route::prefix('admin')->group(function () {
+
+    // Dashboard
+    Route::get('/dashboard', [AdminAuthController::class, 'dashboard'])->name('admin.dashboard');
+
+    // Seleksi siswa
+    Route::get('/seleksi', [AdminAuthController::class, 'seleksi'])->name('admin.seleksi');
+    Route::put('/seleksi/{id}', [AdminAuthController::class, 'updateSeleksi'])->name('admin.seleksi.update');
+
+    // Logout
+    Route::post('/logout', [AdminAuthController::class, 'logout'])->name('admin.logout');
+});
