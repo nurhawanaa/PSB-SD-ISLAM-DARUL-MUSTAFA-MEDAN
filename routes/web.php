@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Session;
-use Illuminate\Http\Request;
+use App\Http\Controllers\VerifikasiController;
 use App\Http\Controllers\PendaftaranController;
 use App\Http\Controllers\AdminAuthController;
 use Illuminate\Support\Facades\Auth;
@@ -16,18 +16,7 @@ Route::get('/pendaftaran/verifikasi', function () {
 })->name('pendaftaran.verifikasi');
 
 // Proses verifikasi reCAPTCHA
-Route::post('/pendaftaran/verify', function (Request $request) {
-    $response = $request->input('g-recaptcha-response');
-    $secret = env('RECAPTCHA_SECRET_KEY');
-    $verify = file_get_contents('https://www.google.com/recaptcha/api/siteverify?secret=' . $secret . '&response=' . $response);
-    $captchaSuccess = json_decode($verify);
-    if ($captchaSuccess && $captchaSuccess->success) {
-        Session::put('recaptcha_verified', true);
-        return redirect()->route('pendaftaran.form');
-    } else {
-        return redirect()->back()->withErrors(['captcha' => 'Verifikasi captcha gagal, silakan coba lagi.']);
-    }
-});
+Route::post('/pendaftaran/verify', [VerifikasiController::class, 'verify'])->name('pendaftaran.verify');
 
 // Proteksi akses form pendaftaran
 Route::get('/', function () {
@@ -48,10 +37,9 @@ Route::get('/pendaftaran', function () {
 Route::post('/pendaftaran/simpan', [PendaftaranController::class, 'simpan']);
 
 // Daftar siswa yang lulus
-Route::get('/pendaftaran/lulus', function () {
-    $siswa = \App\Models\Pendaftaran::where('status', 'lulus')->get();
-    return view('daftar_lulus', compact('siswa'));
-})->name('pendaftaran.lulus');
+use App\Http\Controllers\DaftarLulusController;
+
+Route::get('/pendaftaran/lulus', [DaftarLulusController::class, 'index'])->name('pendaftaran.lulus');
 
 
 // Login

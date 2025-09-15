@@ -3,9 +3,9 @@
 @section('title', 'Dashboard Admin - ' . config('app.name'))
 
 @section('content')
-<div class="container pt-4 pb-4">
+<div class="container-fluid pt-4 pb-4">
     <div class="row justify-content-center">
-        <div class="col-md-10">
+        <div class="col-12">
             <div class="card shadow-lg border-0">
                 <div class="card-header bg-gradient bg-primary text-white text-center rounded-top">
                     <h2 class="mb-1"><i class="bi bi-person-badge me-2"></i>Dashboard Admin</h2>

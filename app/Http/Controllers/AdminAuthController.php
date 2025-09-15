@@ -41,12 +41,22 @@ class AdminAuthController extends Controller
         return view('admin_dashboard', compact('total_pendaftar', 'total_lulus', 'total_belum_lulus'));
     }
 
-    public function seleksi()
+    public function seleksi(Request $request)
     {
         if (!Auth::guard('admin')->check()) {
             return redirect()->route('admin.login');
         }
-        $siswa = \App\Models\Pendaftaran::all();
+        $query = \App\Models\Pendaftaran::query();
+        if ($request->filled('search')) {
+            $search = $request->input('search');
+            $query->where('nama', 'like', "%$search%");
+        }
+        if ($request->input('sort') === 'nama_asc') {
+            $query->orderBy('nama', 'asc');
+        } elseif ($request->input('sort') === 'nama_desc') {
+            $query->orderBy('nama', 'desc');
+        }
+        $siswa = $query->get();
         return view('admin_seleksi', compact('siswa'));
     }
 

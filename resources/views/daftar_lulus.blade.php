@@ -2,23 +2,34 @@
 
 @section('title', 'Daftar Siswa Lulus - ' . config('app.name'))
 
+@section('navbar')
+
 @section('content')
-<div class="container pt-4 pb-4">
+<div class="container-fluid pt-4 pb-4">
     <div class="row justify-content-center">
-        <div class="col-md-10">
+        <div class="col-12">
             <div class="card shadow-lg border-0">
-                <div class="card-header bg-gradient bg-success text-white text-center rounded-top">
-                    <h2 class="mb-1"><i class="bi bi-list-check me-2"></i>Daftar Siswa yang Lulus</h2>
-                    <span class="fw-light">{{ config('app.name') }}</span>
+                <div class="card-header text-center">
+                    <h2 class="mb-1 fw-semibold text-dark"><i class="bi bi-list-check me-2"></i>Daftar Siswa yang Lulus</h2>
+                    <span class="fw-light text-secondary small">{{ config('app.name') }}</span>
                 </div>
                 <div class="card-body p-4">
+                    <form method="GET" class="mb-3 d-flex align-items-center gap-2 justify-content-end flex-wrap">
+                        @csrf
+                        <input type="search" name="search" value="{{ request('search') }}" class="form-control border-0 shadow-none px-3" style="background:#f3f4f6;max-width:220px;" placeholder="Cari nama...">
+                        <button type="submit" class="btn btn-sm btn-dark px-3">Cari</button>
+                        <a href="?sort=nama_asc" class="btn btn-sm btn-outline-dark px-3">A-Z</a>
+                        <a href="?sort=nama_desc" class="btn btn-sm btn-outline-dark px-3">Z-A</a>
+                    </form>
                     @if(count($siswa) > 0)
                     <div class="table-responsive">
                         <table class="table table-bordered table-hover align-middle">
                             <thead class="table-success">
-                                <tr>
+                                <tr class="text-dark text-center align-middle">
                                     <th>No</th>
-                                    <th>Nama</th>
+                                    <th>Nama
+                                        <a href="?sort=nama_asc" class="ms-1 text-decoration-none"><i class="bi bi-arrow-down-up"></i></a>
+                                    </th>
                                     <th>Jenis Kelamin</th>
                                     <th>Tempat, Tgl Lahir</th>
                                     <th>Alamat</th>
@@ -29,7 +40,7 @@
                             <tbody>
                                 @foreach($siswa as $i => $row)
                                 <tr>
-                                    <td>{{ $i+1 }}</td>
+                                    <td class="text-center align-middle">{{ $i+1 }}</td>
                                     <td>{{ $row->nama }}</td>
                                     <td>{{ $row->jenis_kelamin }}</td>
                                     <td>{{ $row->tempat_lahir }}, {{ \Carbon\Carbon::parse($row->tanggal_lahir)->format('d-m-Y') }}</td>
@@ -58,6 +69,3 @@
         </div>
     </div>
 </div>
-</body>
-
-</html>

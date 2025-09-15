@@ -5,7 +5,7 @@
 @section('content')
 <div class="container pt-0 pb-4" style="margin-top:-2.5rem;">
     <div class="row justify-content-center">
-        <div class="col-md-8">
+        <div class="col-12">
             <div class="card shadow-lg border-0">
                 <div class="card-header bg-gradient bg-primary text-white text-center rounded-top">
                     <h2 class="mb-1"><i class="bi bi-person-plus-fill me-2"></i>Pendaftaran Siswa Baru</h2>
