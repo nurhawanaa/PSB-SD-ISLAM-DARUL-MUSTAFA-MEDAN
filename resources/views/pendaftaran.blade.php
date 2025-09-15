@@ -34,6 +34,11 @@
                             </ul>
                         </div>
                         @endif
+                        <div class="col-12 mt-2 mb-4">
+                            <a href="{{ route('pendaftaran.lulus') }}" class="btn btn-primary w-100 shadow-sm">
+                                <i class="bi bi-list-check me-2"></i>Lihat Daftar Siswa yang Lulus
+                            </a>
+                        </div>
                         <form id="dataDiriForm" method="POST" action="/pendaftaran/simpan" autocomplete="off">
                             @csrf
                             <div class="row g-3">

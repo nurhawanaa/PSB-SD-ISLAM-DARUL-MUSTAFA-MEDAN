@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Http\Request;
 use App\Http\Controllers\PendaftaranController;
+use App\Http\Controllers\AdminAuthController;
 
 // Halaman verifikasi reCAPTCHA
 Route::get('/pendaftaran/verifikasi', function () {
@@ -37,3 +38,15 @@ Route::get('/pendaftaran', function () {
 
 // Proses simpan data pendaftar
 Route::post('/pendaftaran/simpan', [PendaftaranController::class, 'simpan']);
+
+// Daftar siswa yang lulus
+Route::get('/pendaftaran/lulus', function () {
+    $siswa = \App\Models\Pendaftaran::where('status', 'lulus')->get();
+    return view('daftar_lulus', compact('siswa'));
+})->name('pendaftaran.lulus');
+
+// Login Admin
+Route::get('/admin/login', [AdminAuthController::class, 'showLoginForm'])->name('admin.login');
+Route::post('/admin/login', [AdminAuthController::class, 'login'])->name('admin.login.submit');
+Route::get('/admin/dashboard', [AdminAuthController::class, 'dashboard'])->name('admin.dashboard');
+Route::get('/admin/logout', [AdminAuthController::class, 'logout'])->name('admin.logout');
