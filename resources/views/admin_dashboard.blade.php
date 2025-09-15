@@ -15,7 +15,7 @@
                     <div class="row g-4">
                         <div class="col-md-4">
                             <div class="card text-bg-info mb-3 shadow-sm">
-                                <div class="card-body text-center">
+                                <div class="card-body text-center text-dark">
                                     <h5 class="card-title"><i class="bi bi-person-lines-fill me-2"></i>Total Pendaftar</h5>
                                     <h2>{{ $total_pendaftar }}</h2>
                                 </div>
@@ -23,7 +23,7 @@
                         </div>
                         <div class="col-md-4">
                             <div class="card text-bg-success mb-3 shadow-sm">
-                                <div class="card-body text-center">
+                                <div class="card-body text-center text-dark">
                                     <h5 class="card-title"><i class="bi bi-check2-circle me-2"></i>Siswa Lulus</h5>
                                     <h2>{{ $total_lulus }}</h2>
                                 </div>
@@ -31,7 +31,7 @@
                         </div>
                         <div class="col-md-4">
                             <div class="card text-bg-warning mb-3 shadow-sm">
-                                <div class="card-body text-center">
+                                <div class="card-body text-center text-dark">
                                     <h5 class="card-title"><i class="bi bi-hourglass-split me-2"></i>Belum Lulus</h5>
                                     <h2>{{ $total_belum_lulus }}</h2>
                                 </div>

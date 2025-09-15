@@ -16,7 +16,7 @@
                     <span class="fw-light">{{ config('app.name') }}</span>
                 </div>
                 <div class="card-body p-4 text-center">
-                    <p class="mb-4 text-secondary fs-5"><i class="bi bi-info-circle me-2"></i>Silakan centang kotak di bawah untuk verifikasi keamanan sebelum melanjutkan ke form pendaftaran.</p>
+                    <p class="mb-4 text-secondary fs-6"><i class="bi bi-info-circle me-2"></i>Silakan centang kotak di bawah untuk verifikasi keamanan sebelum melanjutkan ke form pendaftaran.</p>
                     <form id="captchaForm" method="POST" action="/pendaftaran/verify">
                         @csrf
                         <div class="mb-4 text-center">

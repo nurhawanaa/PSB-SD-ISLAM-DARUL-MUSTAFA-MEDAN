@@ -3,7 +3,7 @@
 @section('title', 'Pendaftaran Siswa Baru - ' . config('app.name'))
 
 @section('content')
-<div class="container pt-0 pb-4" style="margin-top:-2.3rem;">
+<div class="container pt-0 pb-4" style="margin-top:-2.5rem;">
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card shadow-lg border-0">

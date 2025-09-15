@@ -7,6 +7,131 @@
     <title>@yield('title', config('app.name'))</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', Arial, sans-serif;
+            background: #f7f7f9;
+            color: #222;
+        }
+
+        .container {
+            max-width: 1000px;
+        }
+
+        .card {
+            border-radius: 14px;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+            border: 1px solid #e5e7eb;
+        }
+
+        .card-header {
+            border-radius: 14px 14px 0 0;
+            background: #fff;
+            border-bottom: 1px solid #e5e7eb;
+            color: #222;
+            font-weight: 600;
+            font-size: 1.25rem;
+        }
+
+        .btn-primary,
+        .btn-success {
+            background: #222;
+            border: none;
+            color: #fff;
+            font-weight: 600;
+            border-radius: 8px;
+            transition: background 0.2s;
+        }
+
+        .btn-primary:hover,
+        .btn-success:hover {
+            background: #444;
+        }
+
+        .form-control,
+        textarea {
+            border-radius: 8px;
+            border: 1px solid #e5e7eb;
+            background: #f9fafb;
+            font-size: 1rem;
+        }
+
+        .form-label {
+            font-weight: 500;
+            color: #222;
+            margin-bottom: 0.25rem;
+        }
+
+        .shadow-lg {
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06) !important;
+        }
+
+        .btn-lg {
+            font-size: 1rem;
+            padding: 0.6rem 1.2rem;
+        }
+
+        .card-body {
+            background: #fff;
+        }
+
+        .alert {
+            border-radius: 8px;
+            font-size: 0.98rem;
+        }
+
+        .navbar {
+            background: #fff !important;
+            border-bottom: 1px solid #e5e7eb;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+        }
+
+        .navbar-brand,
+        .nav-link,
+        .navbar-text {
+            color: #222 !important;
+            font-weight: 500;
+        }
+
+        .nav-link.active {
+            color: #2563eb !important;
+            font-weight: 600;
+            background: #f3f4f6;
+            border-radius: 6px;
+        }
+
+        .btn-outline-light {
+            color: #222;
+            border-color: #e5e7eb;
+            background: #fff;
+        }
+
+        .btn-outline-light:hover {
+            background: #f3f4f6;
+            color: #2563eb;
+        }
+
+        .bi {
+            vertical-align: middle;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                max-width: 100%;
+                padding: 0 8px;
+            }
+
+            .card {
+                border-radius: 8px;
+            }
+
+            .card-header {
+                border-radius: 8px 8px 0 0;
+                font-size: 1.1rem;
+            }
+        }
+    </style>
     @stack('head')
 </head>
 

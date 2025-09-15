@@ -7,9 +7,9 @@
     <div class="row justify-content-center">
         <div class="col-md-5">
             <div class="card shadow-lg border-0">
-                <div class="card-header bg-gradient bg-primary text-white text-center rounded-top">
-                    <h2 class="mb-1"><i class="bi bi-person-lock me-2"></i>Login Admin</h2>
-                    <span class="fw-light">{{ config('app.name') }}</span>
+                <div class="card-header bg-primary text-center">
+                    <h2 class="mb-1 fw-semibold text-white"><i class="bi bi-person-lock me-2"></i>Login Admin</h2>
+                    <span class="fw-light text-white small">{{ config('app.name') }}</span>
                 </div>
                 <div class="card-body p-4">
                     @if($errors->any())

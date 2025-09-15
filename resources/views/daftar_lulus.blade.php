@@ -46,11 +46,13 @@
                         <i class="bi bi-info-circle me-2"></i>Belum ada siswa yang lulus.
                     </div>
                     @endif
+                    @if(!auth()->guard('admin')->check())
                     <div class="mt-3 text-end">
                         <a href="{{ url('/pendaftaran') }}" class="btn btn-secondary">
                             <i class="bi bi-arrow-left-circle me-1"></i>Kembali ke Pendaftaran
                         </a>
                     </div>
+                    @endif
                 </div>
             </div>
         </div>

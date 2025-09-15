@@ -7,7 +7,7 @@
     <div class="row justify-content-center">
         <div class="col-md-11">
             <div class="card shadow-lg border-0">
-                <div class="card-header bg-gradient bg-info text-white text-center rounded-top">
+                <div class="card-header bg-gradient bg-primary text-white text-center rounded-top">
                     <h2 class="mb-1"><i class="bi bi-person-lines-fill me-2"></i>Seleksi Siswa Pendaftar</h2>
                     <span class="fw-light">{{ config('app.name') }}</span>
                 </div>
@@ -15,7 +15,7 @@
                     @if(count($siswa) > 0)
                     <div class="table-responsive">
                         <table class="table table-bordered table-hover align-middle">
-                            <thead class="table-info">
+                            <thead class="table-primary">
                                 <tr>
                                     <th>No</th>
                                     <th>Nama</th>
