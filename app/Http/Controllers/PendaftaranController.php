@@ -17,6 +17,7 @@ class PendaftaranController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'nama' => 'required',
+            'jenis_kelamin' => 'required|in:Laki-laki,Perempuan',
             'tempat_lahir' => 'required',
             'tanggal_lahir' => 'required|date',
             'nik' => 'required',
@@ -52,6 +53,7 @@ class PendaftaranController extends Controller
 
         Pendaftaran::create($request->only([
             'nama',
+            'jenis_kelamin',
             'tempat_lahir',
             'tanggal_lahir',
             'nik',

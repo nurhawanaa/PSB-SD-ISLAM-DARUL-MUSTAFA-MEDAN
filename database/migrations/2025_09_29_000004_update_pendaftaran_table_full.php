@@ -11,6 +11,7 @@ return new class extends Migration {
             $table->longText('signature')->nullable();
             $table->id();
             $table->string('nama');
+            $table->string('jenis_kelamin');
             $table->string('tempat_lahir');
             $table->date('tanggal_lahir');
             $table->string('nik');

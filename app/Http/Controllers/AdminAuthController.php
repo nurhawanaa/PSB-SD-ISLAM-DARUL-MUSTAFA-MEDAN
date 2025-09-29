@@ -49,12 +49,38 @@ class AdminAuthController extends Controller
         $query = \App\Models\Pendaftaran::query();
         if ($request->filled('search')) {
             $search = $request->input('search');
-            $query->where('nama', 'like', "%$search%");
+            $query->where(function($q) use ($search) {
+                // Pencarian usia
+                if (is_numeric($search)) {
+                    $q->orWhereRaw('TIMESTAMPDIFF(YEAR, tanggal_lahir, CURDATE()) = ?', [$search]);
+                }
+                $q->where('nama', 'like', "%$search%")
+                  ->orWhere('nik', 'like', "%$search%")
+                  ->orWhere('jenis_kelamin', 'like', "%$search%")
+                  ->orWhere('tempat_lahir', 'like', "%$search%")
+                  ->orWhere('agama', 'like', "%$search%")
+                  ->orWhere('alamat', 'like', "%$search%")
+                  ->orWhere('nama_ayah', 'like', "%$search%")
+                  ->orWhere('nama_ibu', 'like', "%$search%")
+                  ->orWhere('pendidikan_ayah', 'like', "%$search%")
+                  ->orWhere('pendidikan_ibu', 'like', "%$search%")
+                  ->orWhere('pekerjaan_ayah', 'like', "%$search%")
+                  ->orWhere('pekerjaan_ibu', 'like', "%$search%")
+                  ->orWhere('telp_ayah', 'like', "%$search%")
+                  ->orWhere('telp_ibu', 'like', "%$search%")
+                  ->orWhere('alamat_ayah', 'like', "%$search%")
+                  ->orWhere('alamat_ibu', 'like', "%$search%")
+                  ->orWhere('status', 'like', "%$search%");
+            });
         }
         if ($request->input('sort') === 'nama_asc') {
             $query->orderBy('nama', 'asc');
         } elseif ($request->input('sort') === 'nama_desc') {
             $query->orderBy('nama', 'desc');
+        } elseif ($request->input('sort') === 'usia_asc') {
+            $query->orderByRaw('TIMESTAMPDIFF(YEAR, tanggal_lahir, CURDATE()) asc');
+        } elseif ($request->input('sort') === 'usia_desc') {
+            $query->orderByRaw('TIMESTAMPDIFF(YEAR, tanggal_lahir, CURDATE()) desc');
         }
         $siswa = $query->get();
         return view('admin_seleksi', compact('siswa'));
@@ -67,6 +93,12 @@ class AdminAuthController extends Controller
         }
         $status = request('status');
         $siswa = \App\Models\Pendaftaran::findOrFail($id);
+        // Hitung usia dari tanggal lahir
+        $tanggal_lahir = $siswa->tanggal_lahir;
+        $umur = \Carbon\Carbon::parse($tanggal_lahir)->age;
+        if ($status === 'lulus' && $umur < 6) {
+            return redirect()->route('admin.seleksi')->with('error', 'Usia siswa kurang dari 6 tahun, tidak dapat diluluskan.');
+        }
         $siswa->status = $status;
         $siswa->save();
         return redirect()->route('admin.seleksi');

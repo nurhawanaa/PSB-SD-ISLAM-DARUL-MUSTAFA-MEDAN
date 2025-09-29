@@ -80,6 +80,17 @@
                                 </div>
                             </div>
                             <div class="col-md-6">
+                                <label class="form-label fw-semibold d-block"><i class="bi bi-gender-ambiguous me-1"></i>Jenis Kelamin</label>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="jenis_kelamin" id="jkL" value="Laki-laki" required>
+                                    <label class="form-check-label" for="jkL"><i class="bi bi-gender-male me-1"></i>Laki-laki</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="jenis_kelamin" id="jkP" value="Perempuan" required>
+                                    <label class="form-check-label" for="jkP"><i class="bi bi-gender-female me-1"></i>Perempuan</label>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
                                 <label class="form-label fw-semibold"><i class="bi bi-credit-card-2-front me-1"></i>NIK</label>
                                 <div class="form-group-check">
                                     <input type="text" name="nik" class="form-control" required placeholder="Nomor Induk Kependudukan">
