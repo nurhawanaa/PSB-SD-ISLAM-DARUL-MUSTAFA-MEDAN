@@ -43,6 +43,7 @@ class PendaftaranController extends Controller
             'pekerjaan_ibu' => 'required',
             'telp_ibu' => 'required',
             'alamat_ibu' => 'required',
+            'signature' => 'required',
         ]);
 
         if ($validator->fails()) {
@@ -75,6 +76,7 @@ class PendaftaranController extends Controller
             'pekerjaan_ibu',
             'telp_ibu',
             'alamat_ibu',
+            'signature',
         ]));
 
         return redirect('/pendaftaran')->with('success', 'Pendaftaran berhasil!');
