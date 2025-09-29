@@ -269,6 +269,9 @@
                                 <input type="hidden" name="signature" id="signature-input" required>
                                 <button type="button" class="btn btn-sm btn-outline-secondary px-1 mt-2" onclick="clearSignature()">Bersihkan</button>
                             </div>
+                            <small class="mb-2 d-block text-muted">
+                                <i class="bi bi-info-circle-fill me-1"></i>Pastikan semua data telah diisi dengan benar sebelum mengirim pendaftaran.
+                            </small>
                             <button type="submit" class="btn btn-success btn-lg w-100 shadow-sm" id="submitBtn">
                                 <i class="bi bi-send-plus me-2"></i>Kirim Pendaftaran
                             </button>
