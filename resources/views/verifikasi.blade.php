@@ -36,6 +36,3 @@
         document.getElementById('btnLanjut').disabled = false;
     }
 </script>
-</body>
-
-</html>
