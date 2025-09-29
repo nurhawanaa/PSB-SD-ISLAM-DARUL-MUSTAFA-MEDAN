@@ -55,6 +55,7 @@ Route::prefix('admin')->group(function () {
     // Seleksi siswa
     Route::get('/seleksi', [AdminAuthController::class, 'seleksi'])->name('admin.seleksi');
     Route::put('/seleksi/{id}', [AdminAuthController::class, 'updateSeleksi'])->name('admin.seleksi.update');
+    Route::delete('/seleksi/{id}', [AdminAuthController::class, 'destroy'])->name('admin.seleksi.delete');
 
     // Logout
     Route::post('/logout', [AdminAuthController::class, 'logout'])->name('admin.logout');

@@ -49,28 +49,28 @@ class AdminAuthController extends Controller
         $query = \App\Models\Pendaftaran::query();
         if ($request->filled('search')) {
             $search = $request->input('search');
-            $query->where(function($q) use ($search) {
+            $query->where(function ($q) use ($search) {
                 // Pencarian usia
                 if (is_numeric($search)) {
                     $q->orWhereRaw('TIMESTAMPDIFF(YEAR, tanggal_lahir, CURDATE()) = ?', [$search]);
                 }
                 $q->where('nama', 'like', "%$search%")
-                  ->orWhere('nik', 'like', "%$search%")
-                  ->orWhere('jenis_kelamin', 'like', "%$search%")
-                  ->orWhere('tempat_lahir', 'like', "%$search%")
-                  ->orWhere('agama', 'like', "%$search%")
-                  ->orWhere('alamat', 'like', "%$search%")
-                  ->orWhere('nama_ayah', 'like', "%$search%")
-                  ->orWhere('nama_ibu', 'like', "%$search%")
-                  ->orWhere('pendidikan_ayah', 'like', "%$search%")
-                  ->orWhere('pendidikan_ibu', 'like', "%$search%")
-                  ->orWhere('pekerjaan_ayah', 'like', "%$search%")
-                  ->orWhere('pekerjaan_ibu', 'like', "%$search%")
-                  ->orWhere('telp_ayah', 'like', "%$search%")
-                  ->orWhere('telp_ibu', 'like', "%$search%")
-                  ->orWhere('alamat_ayah', 'like', "%$search%")
-                  ->orWhere('alamat_ibu', 'like', "%$search%")
-                  ->orWhere('status', 'like', "%$search%");
+                    ->orWhere('nik', 'like', "%$search%")
+                    ->orWhere('jenis_kelamin', 'like', "%$search%")
+                    ->orWhere('tempat_lahir', 'like', "%$search%")
+                    ->orWhere('agama', 'like', "%$search%")
+                    ->orWhere('alamat', 'like', "%$search%")
+                    ->orWhere('nama_ayah', 'like', "%$search%")
+                    ->orWhere('nama_ibu', 'like', "%$search%")
+                    ->orWhere('pendidikan_ayah', 'like', "%$search%")
+                    ->orWhere('pendidikan_ibu', 'like', "%$search%")
+                    ->orWhere('pekerjaan_ayah', 'like', "%$search%")
+                    ->orWhere('pekerjaan_ibu', 'like', "%$search%")
+                    ->orWhere('telp_ayah', 'like', "%$search%")
+                    ->orWhere('telp_ibu', 'like', "%$search%")
+                    ->orWhere('alamat_ayah', 'like', "%$search%")
+                    ->orWhere('alamat_ibu', 'like', "%$search%")
+                    ->orWhere('status', 'like', "%$search%");
             });
         }
         if ($request->input('sort') === 'nama_asc') {
@@ -102,6 +102,16 @@ class AdminAuthController extends Controller
         $siswa->status = $status;
         $siswa->save();
         return redirect()->route('admin.seleksi');
+    }
+
+    public function destroy($id)
+    {
+        if (!Auth::guard('admin')->check()) {
+            return redirect()->route('admin.login');
+        }
+        $siswa = \App\Models\Pendaftaran::findOrFail($id);
+        $siswa->delete();
+        return redirect()->route('admin.seleksi')->with('success', 'Data berhasil dihapus.');
     }
 
     public function logout()
