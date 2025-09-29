@@ -32,7 +32,7 @@
                             <i class="bi bi-list-check me-2"></i>Lihat Daftar Siswa yang Lulus
                         </a>
                     </div>
-                    <form id="dataDiriForm" method="POST" action="/pendaftaran/simpan" autocomplete="off">
+                    <form id="dataDiriForm" method="POST" action="/pendaftaran/simpan" autocomplete="off" enctype="multipart/form-data">
                         <style>
                             .is-filled {
                                 border: 2px solid #198754 !important;

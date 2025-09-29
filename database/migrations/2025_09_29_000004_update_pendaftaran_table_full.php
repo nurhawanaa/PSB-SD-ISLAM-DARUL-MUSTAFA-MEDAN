@@ -38,6 +38,9 @@ return new class extends Migration {
             $table->string('pekerjaan_ibu');
             $table->string('telp_ibu');
             $table->text('alamat_ibu');
+            // Lampiran KK & Akta
+            $table->string('lampiran_kk')->nullable();
+            $table->string('lampiran_akta')->nullable();
             // Status
             $table->string('status')->nullable()->default('belum lulus');
             $table->timestamps();

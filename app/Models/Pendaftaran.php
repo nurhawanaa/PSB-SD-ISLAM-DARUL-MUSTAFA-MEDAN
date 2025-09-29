@@ -36,6 +36,8 @@ class Pendaftaran extends Model
         'pekerjaan_ibu',
         'telp_ibu',
         'alamat_ibu',
+        'lampiran_kk',
+        'lampiran_akta',
         'signature',
     ];
 }

@@ -38,10 +38,29 @@
                     </form>
                     @if(count($siswa) > 0)
                     <div class="table-responsive">
-                        <table class="table table-bordered table-hover align-middle" style="background:#fff;">
+                        <table class="table table-bordered table-hover align-middle table-no-wrap" style="background:#fff;">
                             <style>
                                 .table-no-wrap td {
                                     white-space: nowrap;
+                                }
+
+                                .table-no-wrap th,
+                                .table-no-wrap td {
+                                    border-right: 2px solid #e3e3e3;
+                                }
+
+                                .table-no-wrap th:last-child,
+                                .table-no-wrap td:last-child {
+                                    border-right: none;
+                                }
+
+                                .table-no-wrap tbody tr:hover {
+                                    background: #f0f8ff;
+                                }
+
+                                .table-no-wrap .text-start {
+                                    text-align: left !important;
+                                    font-size: 0.95em;
                                 }
                             </style>
                             <thead class="bg-primary text-white">
@@ -49,6 +68,9 @@
                                     <th class="fw-semibold" colspan="9">Data Siswa</th>
                                     <th class="fw-semibold" colspan="7">Data Ayah</th>
                                     <th class="fw-semibold" colspan="7">Data Ibu</th>
+                                    <th class="fw-semibold" rowspan="2">Lampiran KK</th>
+                                    <th class="fw-semibold" rowspan="2">Lampiran Akta</th>
+                                    <th class="fw-semibold" rowspan="2">Tanda Tangan Ortu</th>
                                     <th class="fw-semibold" rowspan="2">Status</th>
                                     <th class="fw-semibold" rowspan="2">Aksi</th>
                                 </tr>
@@ -88,7 +110,7 @@
                                     <td>{{ $row->tempat_lahir }}, {{ \Carbon\Carbon::parse($row->tanggal_lahir)->format('d-m-Y') }}</td>
                                     <td>
                                         @php
-                                            $usia = \Carbon\Carbon::parse($row->tanggal_lahir)->age;
+                                        $usia = \Carbon\Carbon::parse($row->tanggal_lahir)->age;
                                         @endphp
                                         <span class="badge {{ $usia >= 6 ? 'bg-success' : 'bg-danger' }}">{{ $usia }} Tahun</span>
                                     </td>
@@ -109,6 +131,27 @@
                                     <td>{{ $row->pekerjaan_ibu }}</td>
                                     <td>{{ $row->telp_ibu }}</td>
                                     <td class="text-start">{{ $row->alamat_ibu }}</td>
+                                    <td>
+                                        @if(!empty($row->lampiran_kk))
+                                            <img src="{{ asset('storage/lampiran_kk/' . $row->lampiran_kk) }}" alt="KK" style="max-width:80px;max-height:80px;" title="Lihat KK">
+                                        @else
+                                            <span class="text-muted">-</span>
+                                        @endif
+                                    </td>
+                                    <td>
+                                        @if(!empty($row->lampiran_akta))
+                                            <img src="{{ asset('storage/lampiran_akta/' . $row->lampiran_akta) }}" alt="Akta" style="max-width:80px;max-height:80px;" title="Lihat Akta">
+                                        @else
+                                            <span class="text-muted">-</span>
+                                        @endif
+                                    </td>
+                                    <td>
+                                        @if($row->signature)
+                                        <img src="{{ $row->signature }}" alt="Tanda Tangan" style="max-width:80px;max-height:80px;" title="Tanda Tangan Ortu">
+                                        @else
+                                        <span class="text-muted">-</span>
+                                        @endif
+                                    </td>
                                     <td>
                                         @if($row->status == 'lulus')
                                         <span class="badge bg-success">Lulus</span>

@@ -23,42 +23,23 @@
                     </form>
                     @if(count($siswa) > 0)
                     <div class="table-responsive">
-                        <table class="table table-bordered table-hover align-middle" style="background:#fff;">
+                        <table class="table table-bordered table-hover align-middle table-no-wrap" style="background:#fff;">
                             <style>
                                 .table-no-wrap td {
                                     white-space: nowrap;
                                 }
+                                .table-no-wrap tbody tr:hover {
+                                    background: #f0f8ff;
+                                }
                             </style>
                             <thead class="bg-success text-white">
                                 <tr class="text-center align-middle bg-success text-white">
-                                    <th class="fw-semibold" colspan="9">Data Siswa</th>
-                                    <th class="fw-semibold" colspan="7">Data Ayah</th>
-                                    <th class="fw-semibold" colspan="7">Data Ibu</th>
-                                </tr>
-                                <tr class="text-center align-middle small bg-success text-white" style="opacity:0.95;">
                                     <th>No</th>
                                     <th>Nama</th>
-                                    <th>NIK</th>
                                     <th>Jenis Kelamin</th>
                                     <th>TTL</th>
                                     <th>Usia</th>
-                                    <th>Agama</th>
-                                    <th>Tinggi/Berat</th>
-                                    <th>Saudara</th>
-                                    <th>Nama</th>
-                                    <th>TTL</th>
-                                    <th>Agama</th>
-                                    <th>Pendidikan</th>
-                                    <th>Pekerjaan</th>
-                                    <th>Telp</th>
-                                    <th>Alamat</th>
-                                    <th>Nama</th>
-                                    <th>TTL</th>
-                                    <th>Agama</th>
-                                    <th>Pendidikan</th>
-                                    <th>Pekerjaan</th>
-                                    <th>Telp</th>
-                                    <th>Alamat</th>
+                                    <th>Status</th>
                                 </tr>
                             </thead>
                             <tbody class="table-no-wrap">
@@ -66,7 +47,6 @@
                                 <tr class="align-middle text-center">
                                     <td>{{ $i+1 }}</td>
                                     <td class="fw-bold text-success">{{ $row->nama }}</td>
-                                    <td>{{ $row->nik }}</td>
                                     <td>{{ $row->jenis_kelamin ?? '-' }}</td>
                                     <td>{{ $row->tempat_lahir }}, {{ \Carbon\Carbon::parse($row->tanggal_lahir)->format('d-m-Y') }}</td>
                                     <td>
@@ -75,23 +55,9 @@
                                         @endphp
                                         <span class="badge {{ $usia >= 7 ? 'bg-success' : 'bg-danger' }}">{{ $usia }} Tahun</span>
                                     </td>
-                                    <td>{{ $row->agama }}</td>
-                                    <td>{{ $row->tinggi_badan }} cm / {{ $row->berat_badan }} kg</td>
-                                    <td>{{ $row->jumlah_saudara }}</td>
-                                    <td class="text-start">{{ $row->nama_ayah }}</td>
-                                    <td class="text-start">{{ $row->tempat_lahir_ayah }}, {{ \Carbon\Carbon::parse($row->tanggal_lahir_ayah)->format('d-m-Y') }}</td>
-                                    <td>{{ $row->agama_ayah }}</td>
-                                    <td>{{ $row->pendidikan_ayah }}</td>
-                                    <td>{{ $row->pekerjaan_ayah }}</td>
-                                    <td>{{ $row->telp_ayah }}</td>
-                                    <td class="text-start">{{ $row->alamat_ayah }}</td>
-                                    <td class="text-start">{{ $row->nama_ibu }}</td>
-                                    <td class="text-start">{{ $row->tempat_lahir_ibu }}, {{ \Carbon\Carbon::parse($row->tanggal_lahir_ibu)->format('d-m-Y') }}</td>
-                                    <td>{{ $row->agama_ibu }}</td>
-                                    <td>{{ $row->pendidikan_ibu }}</td>
-                                    <td>{{ $row->pekerjaan_ibu }}</td>
-                                    <td>{{ $row->telp_ibu }}</td>
-                                    <td class="text-start">{{ $row->alamat_ibu }}</td>
+                                    <td>
+                                        <span class="badge bg-success">Lulus</span>
+                                    </td>
                                 </tr>
                                 @endforeach
                             </tbody>
@@ -102,6 +68,9 @@
                         <i class="bi bi-info-circle me-2"></i>Belum ada siswa yang lulus.
                     </div>
                     @endif
+                    <div class="alert alert-warning mt-3 small text-center">
+                        <i class="bi bi-shield-lock me-1"></i>Data yang ditampilkan hanya data siswa demi menjaga privasi keluarga dan dokumen.
+                    </div>
                     @if(!auth()->guard('admin')->check())
                     <div class="mt-3 text-end">
                         <a href="{{ url('/pendaftaran') }}" class="btn btn-secondary">

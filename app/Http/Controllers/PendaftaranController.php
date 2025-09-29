@@ -45,13 +45,17 @@ class PendaftaranController extends Controller
             'telp_ibu' => 'required',
             'alamat_ibu' => 'required',
             'signature' => 'required',
+            'lampiran_kk' => 'nullable|file|mimes:jpg,jpeg,png,pdf|max:2048',
+            'lampiran_akta' => 'nullable|file|mimes:jpg,jpeg,png,pdf|max:2048',
         ]);
 
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();
         }
 
-        Pendaftaran::create($request->only([
+        $uploadError = null;
+
+        $data = $request->only([
             'nama',
             'jenis_kelamin',
             'tempat_lahir',
@@ -79,8 +83,24 @@ class PendaftaranController extends Controller
             'telp_ibu',
             'alamat_ibu',
             'signature',
-        ]));
+        ]);
 
+        // Proses upload file lampiran KK
+        if ($request->hasFile('lampiran_kk')) {
+            $kk = $request->file('lampiran_kk');
+            $kkName = $kk->hashName();
+            $kk->storeAs('lampiran_kk', $kkName, 'public');
+            $data['lampiran_kk'] = $kkName;
+        }
+        // Proses upload file lampiran Akta
+        if ($request->hasFile('lampiran_akta')) {
+            $akta = $request->file('lampiran_akta');
+            $aktaName = $akta->hashName();
+            $akta->storeAs('lampiran_akta', $aktaName, 'public');
+            $data['lampiran_akta'] = $aktaName;
+        }
+
+        Pendaftaran::create($data);
         return redirect('/pendaftaran')->with('success', 'Pendaftaran berhasil!');
     }
 }
