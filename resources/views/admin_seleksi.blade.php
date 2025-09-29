@@ -162,47 +162,22 @@
                                         @endif
                                     </td>
                                     <td>
-                                        <form method="POST" action="{{ route('admin.seleksi.update', $row->id) }}" class="d-flex justify-content-center gap-2">
-                                            @csrf
-                                            @method('PUT')
+                                        <div class="d-flex justify-content-center gap-2 mb-2">
+                                            <form method="POST" action="{{ route('admin.seleksi.update', $row->id) }}">
+                                                @csrf
+                                                @method('PUT')
+                                                <button type="submit" name="status" value="lulus" class="btn btn-success btn-sm px-3"><i class="bi bi-check2-circle"></i> Luluskan</button>
+                                                <button type="submit" name="status" value="tidak lulus" class="btn btn-danger btn-sm px-3"><i class="bi bi-x-circle"></i> Tidak Lulus</button>
+                                            </form>
                                             @if($row->status == 'lulus' || $row->status == 'tidak lulus')
                                             <form method="POST" action="{{ route('admin.seleksi.delete', $row->id) }}" class="form-hapus-data">
                                                 @csrf
                                                 @method('DELETE')
                                                 <button type="button" class="btn btn-outline-danger btn-sm px-3 btn-hapus-data"><i class="bi bi-trash"></i> Hapus</button>
                                             </form>
-                                            @section('scripts')
-                                            <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-                                            <script>
-                                                document.addEventListener('DOMContentLoaded', function() {
-                                                    document.querySelectorAll('.btn-hapus-data').forEach(function(btn) {
-                                                        btn.addEventListener('click', function(e) {
-                                                            e.preventDefault();
-                                                            const form = btn.closest('form');
-                                                            Swal.fire({
-                                                                title: 'Konfirmasi Hapus',
-                                                                text: 'Yakin ingin menghapus data ini? Data yang dihapus tidak dapat dikembalikan.',
-                                                                icon: 'warning',
-                                                                showCancelButton: true,
-                                                                confirmButtonColor: '#d33',
-                                                                cancelButtonColor: '#3085d6',
-                                                                confirmButtonText: 'Ya, hapus!',
-                                                                cancelButtonText: 'Batal'
-                                                            }).then((result) => {
-                                                                if (result.isConfirmed) {
-                                                                    form.submit();
-                                                                }
-                                                            });
-                                                        });
-                                                    });
-                                                });
-                                            </script>
-                                            @endsection
-                                            @else
-                                            <button type="submit" name="status" value="lulus" class="btn btn-success btn-sm px-3"><i class="bi bi-check2-circle"></i> Luluskan</button>
-                                            <button type="submit" name="status" value="tidak lulus" class="btn btn-danger btn-sm px-3"><i class="bi bi-x-circle"></i> Tidak Lulus</button>
                                             @endif
-                                        </form>
+                                        </div>
+                                    </td>
                                     </td>
                                 </tr>
                                 @endforeach
@@ -219,4 +194,29 @@
         </div>
     </div>
 </div>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        document.querySelectorAll('.btn-hapus-data').forEach(function(btn) {
+            btn.addEventListener('click', function(e) {
+                e.preventDefault();
+                const form = btn.closest('form');
+                Swal.fire({
+                    title: 'Konfirmasi Hapus',
+                    text: 'Yakin ingin menghapus data ini? Data yang dihapus tidak dapat dikembalikan.',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#d33',
+                    cancelButtonColor: '#3085d6',
+                    confirmButtonText: 'Ya, hapus!',
+                    cancelButtonText: 'Batal'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        form.submit();
+                    }
+                });
+            });
+        });
+    });
+</script>
 @endsection

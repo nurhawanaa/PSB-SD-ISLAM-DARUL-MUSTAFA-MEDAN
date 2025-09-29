@@ -110,6 +110,19 @@ class AdminAuthController extends Controller
             return redirect()->route('admin.login');
         }
         $siswa = \App\Models\Pendaftaran::findOrFail($id);
+        // Hapus file gambar jika ada
+        if (!empty($siswa->lampiran_kk)) {
+            $kkPath = public_path('storage/lampiran_kk/' . $siswa->lampiran_kk);
+            if (file_exists($kkPath)) {
+                @unlink($kkPath);
+            }
+        }
+        if (!empty($siswa->lampiran_akta)) {
+            $aktaPath = public_path('storage/lampiran_akta/' . $siswa->lampiran_akta);
+            if (file_exists($aktaPath)) {
+                @unlink($aktaPath);
+            }
+        }
         $siswa->delete();
         return redirect()->route('admin.seleksi')->with('success', 'Data berhasil dihapus.');
     }
