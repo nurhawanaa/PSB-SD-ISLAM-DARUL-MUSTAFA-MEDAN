@@ -89,7 +89,7 @@
                         <table id="seleksiTable" class="table table-bordered table-hover align-middle table-no-wrap" style="background:#fff;">
                             <thead class="bg-primary text-white">
                                 <tr class="text-center align-middle bg-primary text-white">
-                                    <th class="fw-semibold" colspan="9">Data Siswa</th>
+                                    <th class="fw-semibold" colspan="10">Data Siswa</th>
                                     <th class="fw-semibold" colspan="7">Data Ayah</th>
                                     <th class="fw-semibold" colspan="7">Data Ibu</th>
                                     <th class="fw-semibold" rowspan="2">Lampiran KK</th>
@@ -108,6 +108,7 @@
                                     <th>Agama</th>
                                     <th>Tinggi/Berat</th>
                                     <th>Saudara</th>
+                                    <th>Alamat</th>
                                     <th>Nama</th>
                                     <th>TTL</th>
                                     <th>Agama</th>
@@ -141,6 +142,7 @@
                                     <td>{{ $row->agama }}</td>
                                     <td>{{ $row->tinggi_badan }} cm / {{ $row->berat_badan }} kg</td>
                                     <td>{{ $row->jumlah_saudara }}</td>
+                                    <td>{{ $row->alamat }}</td>
                                     <td class="text-start">{{ $row->nama_ayah }}</td>
                                     <td class="text-start">{{ $row->tempat_lahir_ayah }}, {{ \Carbon\Carbon::parse($row->tanggal_lahir_ayah)->format('d-m-Y') }}</td>
                                     <td>{{ $row->agama_ayah }}</td>
@@ -248,13 +250,33 @@
         return clone;
     }
 
+    function getKopSuratHTML() {
+        return `
+        <div style="text-align:center;margin-bottom:18px;">
+            <div style="display:inline-flex;align-items:center;gap:14px;">
+                <img src='${window.location.origin}/storage/logosekolah.png' alt='logo' style='height:48px;width:48px;object-fit:contain;background:transparent;border-radius:50%;box-shadow:none;'>
+                <div style="text-align:left;">
+                    <span style="font-size:1.35em;font-weight:700;letter-spacing:0.5px;">${document.querySelector('[data-kop-nama]')?.textContent || 'SD ISLAM DARUL MUSTAFA MEDAN'}</span><br>
+                    <span style="font-size:0.98em;opacity:0.85;">
+                        Jl. Pelajar Timur, Gg. Mawar, No. 26 B, Kel. Binjai, Kec. Medan Denai 20228, Kota Medan.<br>
+                        Telp: ${document.querySelector('[data-kop-telp]')?.textContent || '-'} | Email: ${document.querySelector('[data-kop-email]')?.textContent || '-'}
+                    </span>
+                </div>
+            </div>
+            <hr style="margin-top:10px;margin-bottom:0;border-top:2px solid #222;">
+        </div>
+        `;
+    }
+
     function printSeleksiTable() {
         var table = getSeleksiTableWithoutAksi();
+        var kop = getKopSuratHTML();
         var win = window.open('', '', 'width=1200,height=700');
         win.document.write('<html><head><title>Print Data Seleksi</title>');
         win.document.write('<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">');
         win.document.write('</head><body>');
-        win.document.write('<h3>Data Seleksi Siswa</h3>');
+        win.document.write(kop);
+        win.document.write('<h3 style="text-align:center;margin-bottom:18px;">Data Seleksi Siswa</h3>');
         win.document.write(table.outerHTML);
         win.document.write('</body></html>');
         win.document.close();
@@ -267,32 +289,118 @@
 
     function exportSeleksiToWord() {
         var table = getSeleksiTableWithoutAksi();
+        var tbody = table.querySelector('tbody');
+        var rows = Array.from(tbody.rows);
+        var kop = getKopSuratHTML();
         var html = '<html><head><meta charset="utf-8"><title>Data Seleksi Siswa</title></head><body>';
-        html += '<h3>Data Seleksi Siswa</h3>';
+        html += kop;
+        html += '<h3 style="text-align:center;margin-bottom:18px;">DATA SISWA TAHUN PELAJARAN 2025 / 2026</h3>';
         html += table.outerHTML;
         html += '</body></html>';
-        var blob = new Blob([html], {type: 'application/msword'});
+        var blob = new Blob([html], {
+            type: 'application/msword'
+        });
         var url = URL.createObjectURL(blob);
         var a = document.createElement('a');
         a.href = url;
         a.download = 'data-seleksi.doc';
         document.body.appendChild(a);
         a.click();
-        setTimeout(function(){
+        setTimeout(function() {
             document.body.removeChild(a);
             window.URL.revokeObjectURL(url);
         }, 100);
     }
 
     function exportSeleksiToExcel() {
+        // Kop surat
+        var kop = [
+            ["SD ISLAM DARUL MUSTAFA MEDAN"],
+            ["Jl. Pelajar Timur, Gg. Mawar, No. 26 B, Kel. Binjai, Kec. Medan Denai 20228, Kota Medan."],
+            ["Telp: " + (document.querySelector('[data-kop-telp]')?.textContent || '-') + " | Email: " + (document.querySelector('[data-kop-email]')?.textContent || '-')],
+            []
+        ];
+
+        // Ambil header tabel: buat dua baris header seperti di website
         var table = getSeleksiTableWithoutAksi();
-        var wb = XLSX.utils.table_to_book(table, {
-            sheet: "Data Seleksi"
-        });
+        var thead = table.querySelector('thead');
+        var headerRow1 = [];
+        var headerRow2 = [];
+        if (thead && thead.rows.length > 1) {
+            var row1 = thead.rows[0]; // baris pertama (grup)
+            var row2 = thead.rows[1]; // baris kedua (detail)
+            // Baris pertama: ulangi label sesuai colspan
+            Array.from(row1.cells).forEach(function(cell) {
+                var colspan = cell.colSpan || 1;
+                var label = cell.innerText.trim();
+                for (var i = 0; i < colspan; i++) {
+                    headerRow1.push(label);
+                }
+            });
+            // Baris kedua: ambil semua label detail
+            Array.from(row2.cells).forEach(function(cell) {
+                headerRow2.push(cell.innerText.trim());
+            });
+            // Jika jumlah kolom baris kedua < baris pertama, tambahkan cell kosong
+            while (headerRow2.length < headerRow1.length) {
+                headerRow2.push('');
+            }
+            // Perbaiki header 'Alamat' pada Data Ibu jika kosong
+            // Cari posisi kolom terakhir dari grup 'Data Ibu'
+            var lastDataIbuIdx = -1;
+            for (var i = 0; i < headerRow1.length; i++) {
+                if (headerRow1[i] === 'Data Ibu') {
+                    lastDataIbuIdx = i;
+                }
+            }
+            if (lastDataIbuIdx !== -1 && headerRow2[lastDataIbuIdx] === '') {
+                headerRow2[lastDataIbuIdx] = 'Alamat';
+            }
+        }
+
+        // Ambil data siswa
+        var tbody = table.querySelector('tbody');
+        var dataRows = [];
+        if (tbody) {
+            Array.from(tbody.rows).forEach(function(row) {
+                var cells = Array.from(row.cells).map(function(cell) {
+                    // Jika ada img, ambil src
+                    var img = cell.querySelector('img');
+                    if (img) {
+                        return img.alt ? img.alt : img.src;
+                    }
+                    return cell.innerText.trim();
+                });
+                dataRows.push(cells);
+            });
+        }
+
+        // Gabungkan semua: kop surat, dua baris header, data
+        var aoa = kop.concat([headerRow1, headerRow2]).concat(dataRows);
+        var ws = XLSX.utils.aoa_to_sheet(aoa);
+        var wb = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(wb, ws, "Data Seleksi");
         XLSX.writeFile(wb, 'data-seleksi.xlsx');
     }
 
+    // Data kop surat untuk JS
     document.addEventListener('DOMContentLoaded', function() {
+        // Inject kop data for JS
+        var kopNama = document.createElement('span');
+        kopNama.setAttribute('data-kop-nama', '');
+        kopNama.style.display = 'none';
+        kopNama.textContent = "{{ config('app.name') }}";
+        document.body.appendChild(kopNama);
+        var kopTelp = document.createElement('span');
+        kopTelp.setAttribute('data-kop-telp', '');
+        kopTelp.style.display = 'none';
+        kopTelp.textContent = "{{ config('app.phone') }}";
+        document.body.appendChild(kopTelp);
+        var kopEmail = document.createElement('span');
+        kopEmail.setAttribute('data-kop-email', '');
+        kopEmail.style.display = 'none';
+        kopEmail.textContent = "{{ config('app.email') }}";
+        document.body.appendChild(kopEmail);
         // Modal preview image
         document.body.insertAdjacentHTML('beforeend', `
             <div id="imgModal" style="display:none;position:fixed;z-index:9999;top:0;left:0;width:100vw;height:100vh;background:rgba(0,0,0,0.7);justify-content:center;align-items:center;">
