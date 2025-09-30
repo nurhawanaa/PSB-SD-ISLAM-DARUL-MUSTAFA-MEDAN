@@ -258,16 +258,16 @@
                             <!-- Bagian Lampiran Berkas -->
                             <div class="col-12 mt-4 mb-2">
                                 <h5 class="fw-bold text-info mb-2"><i class="bi bi-paperclip me-2"></i>Lampiran Berkas</h5>
-                                <div class="small text-muted mb-2">Format JPG, PNG, atau PDF. Maksimal 2MB.</div>
+                                <div class="small text-muted mb-2">Format JPG atau PNG. Maksimal 10MB.<br><span class="text-danger">*Catatan: Mohon kirim foto lampiran yang jelas dan mudah dibaca.</span></div>
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label fw-semibold">Fotocopy Kartu Keluarga</label>
-                                <input type="file" name="lampiran_kk" id="lampiran_kk" class="form-control" accept=".jpg,.jpeg,.png,.pdf" required>
+                                <input type="file" name="lampiran_kk" id="lampiran_kk" class="form-control" accept=".jpg,.jpeg,.png" required>
                                 <div id="preview_kk" class="mt-2"></div>
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label fw-semibold">Fotocopy Akta Kelahiran</label>
-                                <input type="file" name="lampiran_akta" id="lampiran_akta" class="form-control" accept=".jpg,.jpeg,.png,.pdf" required>
+                                <input type="file" name="lampiran_akta" id="lampiran_akta" class="form-control" accept=".jpg,.jpeg,.png" required>
                                 <div id="preview_akta" class="mt-2"></div>
                             </div>
                         </div>
@@ -328,8 +328,6 @@
                     preview.innerHTML = '<img src="' + evt.target.result + '" class="img-thumbnail" style="max-width:150px;max-height:150px;">';
                 };
                 reader.readAsDataURL(file);
-            } else if (file.type === 'application/pdf') {
-                preview.innerHTML = '<span class="badge bg-secondary">PDF terpilih: ' + file.name + '</span>';
             }
         }
     });
@@ -345,8 +343,6 @@
                     preview.innerHTML = '<img src="' + evt.target.result + '" class="img-thumbnail" style="max-width:150px;max-height:150px;">';
                 };
                 reader.readAsDataURL(file);
-            } else if (file.type === 'application/pdf') {
-                preview.innerHTML = '<span class="badge bg-secondary">PDF terpilih: ' + file.name + '</span>';
             }
         }
     });

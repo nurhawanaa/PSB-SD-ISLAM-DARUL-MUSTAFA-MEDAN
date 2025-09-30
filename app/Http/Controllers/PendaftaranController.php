@@ -45,8 +45,8 @@ class PendaftaranController extends Controller
             'telp_ibu' => 'required',
             'alamat_ibu' => 'required',
             'signature' => 'required',
-            'lampiran_kk' => 'nullable|file|mimes:jpg,jpeg,png,pdf|max:2048',
-            'lampiran_akta' => 'nullable|file|mimes:jpg,jpeg,png,pdf|max:2048',
+            'lampiran_kk' => 'nullable|file|mimes:jpg,jpeg,png|max:10240',
+            'lampiran_akta' => 'nullable|file|mimes:jpg,jpeg,png|max:10240',
         ]);
 
         if ($validator->fails()) {
