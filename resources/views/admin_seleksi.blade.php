@@ -35,6 +35,12 @@
                         <a href="?sort=nama_desc" class="btn btn-sm btn-outline-dark px-3">Z-A</a>
                         <a href="?sort=usia_asc" class="btn btn-sm btn-outline-primary px-3">Usia Termuda</a>
                         <a href="?sort=usia_desc" class="btn btn-sm btn-outline-primary px-3">Usia Tertua</a>
+                        <select name="status" class="form-select form-select-sm border-0 shadow-none px-3" style="background:#f3f4f6;max-width:180px;" onchange="this.form.submit()">
+                            <option value="">- Semua Status -</option>
+                            <option value="belum seleksi" {{ request('status') == 'belum seleksi' ? 'selected' : '' }}>Belum Seleksi</option>
+                            <option value="lulus" {{ request('status') == 'lulus' ? 'selected' : '' }}>Lulus</option>
+                            <option value="tidak lulus" {{ request('status') == 'tidak lulus' ? 'selected' : '' }}>Tidak Lulus</option>
+                        </select>
                     </form>
                     @if(count($siswa) > 0)
                     <div class="table-responsive">

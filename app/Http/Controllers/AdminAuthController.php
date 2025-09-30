@@ -73,6 +73,19 @@ class AdminAuthController extends Controller
                     ->orWhere('status', 'like', "%$search%");
             });
         }
+
+        // Filter status
+        if ($request->filled('status')) {
+            $status = $request->input('status');
+            if ($status == 'belum seleksi') {
+                $query->where(function($q) {
+                    $q->whereNull('status')->orWhere('status', '')->orWhere('status', 'belum seleksi');
+                });
+            } else {
+                $query->where('status', $status);
+            }
+        }
+
         if ($request->input('sort') === 'nama_asc') {
             $query->orderBy('nama', 'asc');
         } elseif ($request->input('sort') === 'nama_desc') {
