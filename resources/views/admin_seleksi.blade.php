@@ -11,7 +11,20 @@
             <div class="card shadow-lg border-0">
                 <div class="card-header text-center">
                     <h2 class="mb-1 fw-semibold text-dark"><i class="bi bi-person-lines-fill me-2"></i>Seleksi Siswa Pendaftar</h2>
-                    <span class="fw-light text-secondary small">{{ config('app.name') }}</span>
+                    <div class="d-flex flex-column align-items-center justify-content-center" style="gap:4px;">
+                        <div class="d-flex align-items-center justify-content-center" style="gap:12px;">
+                            <div style="background:linear-gradient(135deg,#fff,#e3e3e3);border-radius:50%;padding:6px;box-shadow:0 2px 8px #0002;display:flex;align-items:center;justify-content:center;">
+                                <img src="{{ asset('logosekolah.png') }}" alt="logo" style="height:40px;width:40px;object-fit:contain;background:transparent;border-radius:50%;box-shadow:none;display:inline-block;">
+                            </div>
+                            <div class="text-center">
+                                <span style="font-size:1.25em;font-weight:700;letter-spacing:0.5px;color:#000;text-shadow:0 1px 4px #0003;">{{ config('app.name') }}</span><br>
+                                <span class="text-black" style="font-size:0.95em;opacity:0.85;text-shadow:0 1px 4px #0002;">
+                                    Jl. Pelajar Timur, Gg. Mawar, No. 26 B, Kel. Binjai, Kec. Medan Denai 20228, Kota Medan.<br>
+                                    Telp: {{ config('app.phone') }} | Email: {{ config('app.email') }}
+                                </span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div class="card-body p-4" style="overflow-x:auto;">
                     @if(session('error'))
@@ -43,32 +56,37 @@
                         </select>
                     </form>
                     @if(count($siswa) > 0)
+                    <div class="mb-3 d-flex gap-2 flex-wrap" style="z-index:10;position:relative;">
+                        <button type="button" class="btn btn-outline-secondary btn-sm" onclick="printSeleksiTable()"><i class="bi bi-printer"></i> Print</button>
+                        <button type="button" class="btn btn-outline-primary btn-sm" onclick="exportSeleksiToWord()"><i class="bi bi-file-earmark-word"></i> Export Word</button>
+                        <button type="button" class="btn btn-outline-success btn-sm" onclick="exportSeleksiToExcel()"><i class="bi bi-file-earmark-excel"></i> Export Excel</button>
+                    </div>
+                    <style>
+                        .table-no-wrap td {
+                            white-space: nowrap;
+                        }
+
+                        .table-no-wrap th,
+                        .table-no-wrap td {
+                            border-right: 2px solid #e3e3e3;
+                        }
+
+                        .table-no-wrap th:last-child,
+                        .table-no-wrap td:last-child {
+                            border-right: none;
+                        }
+
+                        .table-no-wrap tbody tr:hover {
+                            background: #f0f8ff;
+                        }
+
+                        .table-no-wrap .text-start {
+                            text-align: left !important;
+                            font-size: 0.95em;
+                        }
+                    </style>
                     <div class="table-responsive">
-                        <table class="table table-bordered table-hover align-middle table-no-wrap" style="background:#fff;">
-                            <style>
-                                .table-no-wrap td {
-                                    white-space: nowrap;
-                                }
-
-                                .table-no-wrap th,
-                                .table-no-wrap td {
-                                    border-right: 2px solid #e3e3e3;
-                                }
-
-                                .table-no-wrap th:last-child,
-                                .table-no-wrap td:last-child {
-                                    border-right: none;
-                                }
-
-                                .table-no-wrap tbody tr:hover {
-                                    background: #f0f8ff;
-                                }
-
-                                .table-no-wrap .text-start {
-                                    text-align: left !important;
-                                    font-size: 0.95em;
-                                }
-                            </style>
+                        <table id="seleksiTable" class="table table-bordered table-hover align-middle table-no-wrap" style="background:#fff;">
                             <thead class="bg-primary text-white">
                                 <tr class="text-center align-middle bg-primary text-white">
                                     <th class="fw-semibold" colspan="9">Data Siswa</th>
@@ -205,7 +223,75 @@
     </div>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html-docx-js/1.0.4/html-docx.min.js"></script>
 <script>
+    // Utility: clone table without last column (Aksi)
+    function getSeleksiTableWithoutAksi() {
+        var table = document.getElementById('seleksiTable');
+        var clone = table.cloneNode(true);
+        // Remove last column from thead
+        var theadRows = clone.tHead ? Array.from(clone.tHead.rows) : Array.from(clone.querySelectorAll('thead tr'));
+        theadRows.forEach(function(row) {
+            if (row.cells.length > 0) {
+                row.deleteCell(row.cells.length - 1);
+            }
+        });
+        // Remove last column from tbody
+        var tbodyRows = clone.tBodies.length > 0 ? Array.from(clone.tBodies[0].rows) : Array.from(clone.querySelectorAll('tbody tr'));
+        tbodyRows.forEach(function(row) {
+            if (row.cells.length > 0) {
+                row.deleteCell(row.cells.length - 1);
+            }
+        });
+        return clone;
+    }
+
+    function printSeleksiTable() {
+        var table = getSeleksiTableWithoutAksi();
+        var win = window.open('', '', 'width=1200,height=700');
+        win.document.write('<html><head><title>Print Data Seleksi</title>');
+        win.document.write('<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">');
+        win.document.write('</head><body>');
+        win.document.write('<h3>Data Seleksi Siswa</h3>');
+        win.document.write(table.outerHTML);
+        win.document.write('</body></html>');
+        win.document.close();
+        win.focus();
+        setTimeout(function() {
+            win.print();
+            win.close();
+        }, 500);
+    }
+
+    function exportSeleksiToWord() {
+        var table = getSeleksiTableWithoutAksi();
+        var html = '<html><head><meta charset="utf-8"><title>Data Seleksi Siswa</title></head><body>';
+        html += '<h3>Data Seleksi Siswa</h3>';
+        html += table.outerHTML;
+        html += '</body></html>';
+        var blob = new Blob([html], {type: 'application/msword'});
+        var url = URL.createObjectURL(blob);
+        var a = document.createElement('a');
+        a.href = url;
+        a.download = 'data-seleksi.doc';
+        document.body.appendChild(a);
+        a.click();
+        setTimeout(function(){
+            document.body.removeChild(a);
+            window.URL.revokeObjectURL(url);
+        }, 100);
+    }
+
+    function exportSeleksiToExcel() {
+        var table = getSeleksiTableWithoutAksi();
+        var wb = XLSX.utils.table_to_book(table, {
+            sheet: "Data Seleksi"
+        });
+        XLSX.writeFile(wb, 'data-seleksi.xlsx');
+    }
+
     document.addEventListener('DOMContentLoaded', function() {
         // Modal preview image
         document.body.insertAdjacentHTML('beforeend', `
