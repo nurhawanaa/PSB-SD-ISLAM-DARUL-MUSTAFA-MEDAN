@@ -133,14 +133,18 @@
                                     <td class="text-start">{{ $row->alamat_ibu }}</td>
                                     <td>
                                         @if(!empty($row->lampiran_kk))
-                                        <img src="{{ asset('storage/lampiran_kk/' . $row->lampiran_kk) }}" alt="KK" style="max-width:80px;max-height:80px;" title="Lihat KK">
+                                        <a href="#" class="preview-img" data-img="{{ asset('storage/lampiran_kk/' . $row->lampiran_kk) }}" data-title="Lampiran KK">
+                                            <img src="{{ asset('storage/lampiran_kk/' . $row->lampiran_kk) }}" alt="KK" style="max-width:80px;max-height:80px;cursor:pointer;" title="Klik untuk lihat KK">
+                                        </a>
                                         @else
                                         <span class="text-muted">-</span>
                                         @endif
                                     </td>
                                     <td>
                                         @if(!empty($row->lampiran_akta))
-                                        <img src="{{ asset('storage/lampiran_akta/' . $row->lampiran_akta) }}" alt="Akta" style="max-width:80px;max-height:80px;" title="Lihat Akta">
+                                        <a href="#" class="preview-img" data-img="{{ asset('storage/lampiran_akta/' . $row->lampiran_akta) }}" data-title="Lampiran Akta">
+                                            <img src="{{ asset('storage/lampiran_akta/' . $row->lampiran_akta) }}" alt="Akta" style="max-width:80px;max-height:80px;cursor:pointer;" title="Klik untuk lihat Akta">
+                                        </a>
                                         @else
                                         <span class="text-muted">-</span>
                                         @endif
@@ -197,6 +201,36 @@
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
     document.addEventListener('DOMContentLoaded', function() {
+        // Modal preview image
+        document.body.insertAdjacentHTML('beforeend', `
+            <div id="imgModal" style="display:none;position:fixed;z-index:9999;top:0;left:0;width:100vw;height:100vh;background:rgba(0,0,0,0.7);justify-content:center;align-items:center;">
+                <div style="position:relative;background:#fff;padding:20px;border-radius:10px;max-width:90vw;max-height:90vh;box-shadow:0 0 20px #0008;text-align:center;">
+                    <span id="imgModalTitle" style="font-weight:bold;display:block;margin-bottom:10px;"></span>
+                    <img id="imgModalImg" src="" alt="Preview" style="max-width:80vw;max-height:70vh;border-radius:8px;box-shadow:0 0 8px #0004;">
+                    <br>
+                    <a id="imgModalDownload" href="#" download style="margin-top:10px;display:inline-block;" class="btn btn-primary"><i class="bi bi-download"></i> Unduh Gambar</a>
+                    <button id="imgModalClose" class="btn btn-danger" style="margin-top:10px;margin-left:10px;">Tutup</button>
+                </div>
+            </div>
+        `);
+
+        document.querySelectorAll('.preview-img').forEach(function(link) {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                var imgUrl = link.getAttribute('data-img');
+                var imgTitle = link.getAttribute('data-title');
+                document.getElementById('imgModalImg').src = imgUrl;
+                document.getElementById('imgModalTitle').textContent = imgTitle;
+                document.getElementById('imgModalDownload').href = imgUrl;
+                document.getElementById('imgModal').style.display = 'flex';
+            });
+        });
+        document.getElementById('imgModalClose').onclick = function() {
+            document.getElementById('imgModal').style.display = 'none';
+            document.getElementById('imgModalImg').src = '';
+        };
+
+        // SweetAlert2 hapus data
         document.querySelectorAll('.btn-hapus-data').forEach(function(btn) {
             btn.addEventListener('click', function(e) {
                 e.preventDefault();
