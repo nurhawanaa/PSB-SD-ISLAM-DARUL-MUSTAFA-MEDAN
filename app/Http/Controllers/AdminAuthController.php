@@ -78,8 +78,11 @@ class AdminAuthController extends Controller
         if ($request->filled('status')) {
             $status = $request->input('status');
             if ($status == 'belum seleksi') {
-                $query->where(function($q) {
-                    $q->whereNull('status')->orWhere('status', '')->orWhere('status', 'belum seleksi');
+                $query->where(function ($q) {
+                    $q->whereNull('status')
+                        ->orWhere('status', '')
+                        ->orWhere('status', 'belum seleksi')
+                        ->orWhere('status', 'belum lulus');
                 });
             } else {
                 $query->where('status', $status);
