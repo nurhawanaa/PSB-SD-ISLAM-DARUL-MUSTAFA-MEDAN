@@ -5,6 +5,67 @@
 @section('navbar')
 
 @section('content')
+<style>
+    @media print {
+        @page {
+            size: Legal;
+            margin: 1cm;
+        }
+
+        body,
+        html {
+            width: 8.5in;
+            height: 14in;
+            background: #fff !important;
+        }
+
+        .card,
+        .card-header,
+        .card-body,
+        .container-fluid,
+        .row,
+        .col-12 {
+            box-shadow: none !important;
+            border: none !important;
+            background: #fff !important;
+        }
+
+        .btn,
+        .navbar,
+        .form-control,
+        .form-select,
+        .form-group,
+        .d-flex,
+        .mb-3,
+        .shadow-lg,
+        .shadow-sm,
+        .alert,
+        .swal2-container {
+            display: none !important;
+        }
+
+        .table {
+            font-size: 12pt;
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .table th,
+        .table td {
+            border: 1px solid #222 !important;
+            padding: 6px 8px !important;
+        }
+
+        /* Optional: header/footer for print */
+        .print-header {
+            display: block !important;
+            text-align: center;
+            margin-bottom: 10px;
+            font-weight: bold;
+            font-size: 1.2em;
+        }
+    }
+</style>
 <div class="container-fluid pt-4 pb-4">
     <div class="row justify-content-center">
         <div class="col-12">
@@ -20,7 +81,7 @@
                                 <span style="font-size:1.25em;font-weight:700;letter-spacing:0.5px;color:#000;text-shadow:0 1px 4px #0003;">{{ config('app.name') }}</span><br>
                                 <span class="text-black" style="font-size:0.95em;opacity:0.85;text-shadow:0 1px 4px #0002;">
                                     Jl. Pelajar Timur, Gg. Mawar, No. 26 B, Kel. Binjai, Kec. Medan Denai 20228, Kota Medan.<br>
-                                    Telp: {{ config('app.phone') }} | Email: {{ config('app.email') }}
+                                    Telp: 081261514441 | Email: syafirarizkiarsyddm@gmail.com
                                 </span>
                             </div>
                         </div>
@@ -160,7 +221,7 @@
                                     <td>
                                         @if(!empty($row->lampiran_kk))
                                         <a href="#" class="preview-img" data-img="{{ asset('storage/lampiran_kk/' . $row->lampiran_kk) }}" data-title="Lampiran KK">
-                                            <img src="{{ asset('storage/lampiran_kk/' . $row->lampiran_kk) }}" alt="KK" style="max-width:80px;max-height:80px;cursor:pointer;" title="Klik untuk lihat KK">
+                                            <img src="{{ asset('storage/lampiran_kk/' . $row->lampiran_kk) }}" alt="KK" style="max-width:48px;max-height:48px;cursor:pointer;" title="Klik untuk lihat KK">
                                         </a>
                                         @else
                                         <span class="text-muted">-</span>
@@ -169,7 +230,7 @@
                                     <td>
                                         @if(!empty($row->lampiran_akta))
                                         <a href="#" class="preview-img" data-img="{{ asset('storage/lampiran_akta/' . $row->lampiran_akta) }}" data-title="Lampiran Akta">
-                                            <img src="{{ asset('storage/lampiran_akta/' . $row->lampiran_akta) }}" alt="Akta" style="max-width:80px;max-height:80px;cursor:pointer;" title="Klik untuk lihat Akta">
+                                            <img src="{{ asset('storage/lampiran_akta/' . $row->lampiran_akta) }}" alt="Akta" style="max-width:48px;max-height:48px;cursor:pointer;" title="Klik untuk lihat Akta">
                                         </a>
                                         @else
                                         <span class="text-muted">-</span>
@@ -177,7 +238,7 @@
                                     </td>
                                     <td>
                                         @if($row->signature)
-                                        <img src="{{ $row->signature }}" alt="Tanda Tangan" style="max-width:80px;max-height:80px;" title="Tanda Tangan Ortu">
+                                        <img src="{{ $row->signature }}" alt="Tanda Tangan" style="max-width:48px;max-height:48px;" title="Tanda Tangan Ortu">
                                         @else
                                         <span class="text-muted">-</span>
                                         @endif
@@ -254,12 +315,12 @@
         return `
         <div style="text-align:center;margin-bottom:18px;">
             <div style="display:inline-flex;align-items:center;gap:14px;">
-                <img src='${window.location.origin}/storage/logosekolah.png' alt='logo' style='height:48px;width:48px;object-fit:contain;background:transparent;border-radius:50%;box-shadow:none;'>
+                <img src='{{ asset('logosekolah.png') }}' alt='logo' style='height:48px;width:48px;object-fit:contain;background:transparent;border-radius:50%;box-shadow:none;'>
                 <div style="text-align:left;">
-                    <span style="font-size:1.35em;font-weight:700;letter-spacing:0.5px;">${document.querySelector('[data-kop-nama]')?.textContent || 'SD ISLAM DARUL MUSTAFA MEDAN'}</span><br>
-                    <span style="font-size:0.98em;opacity:0.85;">
+                    <span style="font-size:1.4rem;font-weight:700;letter-spacing:0.5px;">${document.querySelector('[data-kop-nama]')?.textContent || 'SD ISLAM DARUL MUSTAFA MEDAN'}</span><br>
+                    <span style="font-size:1rem;opacity:0.85;">
                         Jl. Pelajar Timur, Gg. Mawar, No. 26 B, Kel. Binjai, Kec. Medan Denai 20228, Kota Medan.<br>
-                        Telp: ${document.querySelector('[data-kop-telp]')?.textContent || '-'} | Email: ${document.querySelector('[data-kop-email]')?.textContent || '-'}
+                        Telp: 081261514441 | Email: syafirarizkiarsyddm@gmail.com
                     </span>
                 </div>
             </div>
@@ -270,13 +331,23 @@
 
     function printSeleksiTable() {
         var table = getSeleksiTableWithoutAksi();
+        // Pastikan header 'Alamat' pada Data Ibu selalu ada di export
+        var thead = table.querySelector('thead');
+        if (thead && thead.rows.length > 1) {
+            var row2 = thead.rows[1];
+            if (row2.cells.length === 23) {
+                var th = document.createElement('th');
+                th.textContent = 'Alamat';
+                row2.appendChild(th);
+            }
+        }
         var kop = getKopSuratHTML();
         var win = window.open('', '', 'width=1200,height=700');
         win.document.write('<html><head><title>Print Data Seleksi</title>');
         win.document.write('<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">');
         win.document.write('</head><body>');
         win.document.write(kop);
-        win.document.write('<h3 style="text-align:center;margin-bottom:18px;">Data Seleksi Siswa</h3>');
+        win.document.write('<h4 style="text-align:center;margin-bottom:18px;">Data Seleksi Siswa</h4>');
         win.document.write(table.outerHTML);
         win.document.write('</body></html>');
         win.document.close();
@@ -289,12 +360,25 @@
 
     function exportSeleksiToWord() {
         var table = getSeleksiTableWithoutAksi();
-        var tbody = table.querySelector('tbody');
-        var rows = Array.from(tbody.rows);
         var kop = getKopSuratHTML();
-        var html = '<html><head><meta charset="utf-8"><title>Data Seleksi Siswa</title></head><body>';
-        html += kop;
-        html += '<h3 style="text-align:center;margin-bottom:18px;">DATA SISWA TAHUN PELAJARAN 2025 / 2026</h3>';
+        var style = `
+            <style>
+                body { font-family: 'Arial', sans-serif; font-size: 12pt; color: #222; }
+                .kop-surat { margin-bottom: 18px; }
+                h3, h4 { text-align: center; margin-bottom: 18px; }
+                table { border-collapse: collapse; width: 100%; margin-bottom: 18px; }
+                th, td { border: 1px solid #222; padding: 6px 8px; font-size: 11pt; }
+                th { background: #e3e3e3; font-weight: bold; }
+                tr:nth-child(even) { background: #f9f9f9; }
+                .badge { display: inline-block; padding: 2px 8px; border-radius: 6px; font-size: 10pt; }
+                .bg-success { background: #198754; color: #fff; }
+                .bg-danger { background: #dc3545; color: #fff; }
+                .bg-warning { background: #ffc107; color: #222; }
+            </style>
+        `;
+        var html = '<html><head><meta charset="utf-8"><title>Data Seleksi Siswa</title>' + style + '</head><body>';
+        html += '<div class="kop-surat">' + kop + '</div>';
+        html += '<h3>DATA SISWA TAHUN PELAJARAN 2025 / 2026</h3>';
         html += table.outerHTML;
         html += '</body></html>';
         var blob = new Blob([html], {
@@ -308,8 +392,8 @@
         a.click();
         setTimeout(function() {
             document.body.removeChild(a);
-            window.URL.revokeObjectURL(url);
-        }, 100);
+            URL.revokeObjectURL(url);
+        }, 1000);
     }
 
     function exportSeleksiToExcel() {
@@ -317,7 +401,7 @@
         var kop = [
             ["SD ISLAM DARUL MUSTAFA MEDAN"],
             ["Jl. Pelajar Timur, Gg. Mawar, No. 26 B, Kel. Binjai, Kec. Medan Denai 20228, Kota Medan."],
-            ["Telp: " + (document.querySelector('[data-kop-telp]')?.textContent || '-') + " | Email: " + (document.querySelector('[data-kop-email]')?.textContent || '-')],
+            ["Telp: 081261514441 | Email: syafirarizkiarsyddm@gmail.com"],
             []
         ];
 

@@ -20,7 +20,7 @@
                                 <span style="font-size:1.25em;font-weight:700;letter-spacing:0.5px;color:#000;text-shadow:0 1px 4px #0003;">{{ config('app.name') }}</span><br>
                                 <span class="text-black" style="font-size:0.95em;opacity:0.85;text-shadow:0 1px 4px #0002;">
                                     Jl. Pelajar Timur, Gg. Mawar, No. 26 B, Kel. Binjai, Kec. Medan Denai 20228, Kota Medan.<br>
-                                    Telp: {{ config('app.phone') }} | Email: {{ config('app.email') }}
+                                    Telp: 081261514441 | Email: syafirarizkiarsyddm@gmail.com
                                 </span>
                             </div>
                         </div>
