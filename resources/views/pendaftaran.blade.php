@@ -155,14 +155,14 @@
                                 <h6 class="fw-semibold text-secondary"><i class="bi bi-person-fill me-2"></i>Ayah</h6>
                             </div>
                             <div class="col-md-6">
-                                <label class="form-label fw-semibold">Nama Ayah</label>
+                                <label class="form-label fw-semibold"><i class="bi bi-person-fill me-1 text-primary"></i>Nama Ayah</label>
                                 <div class="form-group-check">
                                     <input type="text" name="nama_ayah" class="form-control" required placeholder="Nama ayah">
                                     <span class="input-check" style="display:none;"><i class="bi bi-check-circle-fill"></i></span>
                                 </div>
                             </div>
                             <div class="col-md-6">
-                                <label class="form-label fw-semibold">Tempat/Tanggal Lahir</label>
+                                <label class="form-label fw-semibold"><i class="bi bi-geo-alt-fill me-1 text-success"></i>Tempat/Tanggal Lahir</label>
                                 <div class="input-group">
                                     <div class="form-group-check">
                                         <input type="text" name="tempat_lahir_ayah" class="form-control" required placeholder="Tempat lahir">
@@ -175,35 +175,35 @@
                                 </div>
                             </div>
                             <div class="col-md-4">
-                                <label class="form-label fw-semibold">Agama</label>
+                                <label class="form-label fw-semibold"><i class="bi bi-book me-1 text-info"></i>Agama</label>
                                 <div class="form-group-check">
                                     <input type="text" name="agama_ayah" class="form-control" required placeholder="Agama ayah">
                                     <span class="input-check" style="display:none;"><i class="bi bi-check-circle-fill"></i></span>
                                 </div>
                             </div>
                             <div class="col-md-4">
-                                <label class="form-label fw-semibold">Pendidikan</label>
+                                <label class="form-label fw-semibold"><i class="bi bi-mortarboard-fill me-1 text-warning"></i>Pendidikan</label>
                                 <div class="form-group-check">
                                     <input type="text" name="pendidikan_ayah" class="form-control" required placeholder="Pendidikan terakhir ayah">
                                     <span class="input-check" style="display:none;"><i class="bi bi-check-circle-fill"></i></span>
                                 </div>
                             </div>
                             <div class="col-md-4">
-                                <label class="form-label fw-semibold">Pekerjaan</label>
+                                <label class="form-label fw-semibold"><i class="bi bi-briefcase-fill me-1 text-secondary"></i>Pekerjaan</label>
                                 <div class="form-group-check">
                                     <input type="text" name="pekerjaan_ayah" class="form-control" required placeholder="Pekerjaan ayah">
                                     <span class="input-check" style="display:none;"><i class="bi bi-check-circle-fill"></i></span>
                                 </div>
                             </div>
                             <div class="col-md-4">
-                                <label class="form-label fw-semibold">No. Telp Ayah</label>
+                                <label class="form-label fw-semibold"><i class="bi bi-telephone-fill me-1 text-success"></i>No. Telp Ayah</label>
                                 <div class="form-group-check">
                                     <input type="number" name="telp_ayah" class="form-control" required placeholder="Nomor telepon ayah">
                                     <span class="input-check" style="display:none;"><i class="bi bi-check-circle-fill"></i></span>
                                 </div>
                             </div>
                             <div class="col-12">
-                                <label class="form-label fw-semibold">Alamat</label>
+                                <label class="form-label fw-semibold"><i class="bi bi-house-door-fill me-1 text-danger"></i>Alamat</label>
                                 <div class="form-group-check">
                                     <textarea name="alamat_ayah" class="form-control" rows="2" required placeholder="Alamat ayah"></textarea>
                                     <span class="input-check" style="display:none;"><i class="bi bi-check-circle-fill"></i></span>
@@ -214,14 +214,14 @@
                                 <h6 class="fw-semibold text-secondary"><i class="bi bi-person-fill me-2"></i>Ibu</h6>
                             </div>
                             <div class="col-md-6">
-                                <label class="form-label fw-semibold">Nama Ibu</label>
+                                <label class="form-label fw-semibold"><i class="bi bi-person-fill me-1 text-primary"></i>Nama Ibu</label>
                                 <div class="form-group-check">
                                     <input type="text" name="nama_ibu" class="form-control" required placeholder="Nama ibu">
                                     <span class="input-check" style="display:none;"><i class="bi bi-check-circle-fill"></i></span>
                                 </div>
                             </div>
                             <div class="col-md-6">
-                                <label class="form-label fw-semibold">Tempat/Tanggal Lahir</label>
+                                <label class="form-label fw-semibold"><i class="bi bi-geo-alt-fill me-1 text-success"></i>Tempat/Tanggal Lahir</label>
                                 <div class="input-group">
                                     <div class="form-group-check">
                                         <input type="text" name="tempat_lahir_ibu" class="form-control" required placeholder="Tempat lahir">
@@ -234,35 +234,35 @@
                                 </div>
                             </div>
                             <div class="col-md-4">
-                                <label class="form-label fw-semibold">Agama</label>
+                                <label class="form-label fw-semibold"><i class="bi bi-book me-1 text-info"></i>Agama</label>
                                 <div class="form-group-check">
                                     <input type="text" name="agama_ibu" class="form-control" required placeholder="Agama ibu">
                                     <span class="input-check" style="display:none;"><i class="bi bi-check-circle-fill"></i></span>
                                 </div>
                             </div>
                             <div class="col-md-4">
-                                <label class="form-label fw-semibold">Pendidikan</label>
+                                <label class="form-label fw-semibold"><i class="bi bi-mortarboard-fill me-1 text-warning"></i>Pendidikan</label>
                                 <div class="form-group-check">
                                     <input type="text" name="pendidikan_ibu" class="form-control" required placeholder="Pendidikan terakhir ibu">
                                     <span class="input-check" style="display:none;"><i class="bi bi-check-circle-fill"></i></span>
                                 </div>
                             </div>
                             <div class="col-md-4">
-                                <label class="form-label fw-semibold">Pekerjaan</label>
+                                <label class="form-label fw-semibold"><i class="bi bi-briefcase-fill me-1 text-secondary"></i>Pekerjaan</label>
                                 <div class="form-group-check">
                                     <input type="text" name="pekerjaan_ibu" class="form-control" required placeholder="Pekerjaan ibu">
                                     <span class="input-check" style="display:none;"><i class="bi bi-check-circle-fill"></i></span>
                                 </div>
                             </div>
                             <div class="col-md-4">
-                                <label class="form-label fw-semibold">No. Telp Ibu</label>
+                                <label class="form-label fw-semibold"><i class="bi bi-telephone-fill me-1 text-success"></i>No. Telp Ibu</label>
                                 <div class="form-group-check">
                                     <input type="number" name="telp_ibu" class="form-control" required placeholder="Nomor telepon ibu">
                                     <span class="input-check" style="display:none;"><i class="bi bi-check-circle-fill"></i></span>
                                 </div>
                             </div>
                             <div class="col-12">
-                                <label class="form-label fw-semibold">Alamat</label>
+                                <label class="form-label fw-semibold"><i class="bi bi-house-door-fill me-1 text-danger"></i>Alamat</label>
                                 <div class="form-group-check">
                                     <textarea name="alamat_ibu" class="form-control" rows="2" required placeholder="Alamat ibu"></textarea>
                                     <span class="input-check" style="display:none;"><i class="bi bi-check-circle-fill"></i></span>
@@ -274,12 +274,12 @@
                                 <div class="small text-muted mb-2">Format JPG atau PNG. Maksimal 10MB.<br><span class="text-danger">*Catatan: Mohon kirim foto lampiran yang jelas dan mudah dibaca.</span></div>
                             </div>
                             <div class="col-md-6">
-                                <label class="form-label fw-semibold">Fotocopy Kartu Keluarga</label>
+                                <label class="form-label fw-semibold"><i class="bi bi-card-list me-1 text-primary"></i>Fotocopy Kartu Keluarga</label>
                                 <input type="file" name="lampiran_kk" id="lampiran_kk" class="form-control" accept=".jpg,.jpeg,.png" required>
                                 <div id="preview_kk" class="mt-2"></div>
                             </div>
                             <div class="col-md-6">
-                                <label class="form-label fw-semibold">Fotocopy Akta Kelahiran</label>
+                                <label class="form-label fw-semibold"><i class="bi bi-file-earmark-text me-1 text-info"></i>Fotocopy Akta Kelahiran</label>
                                 <input type="file" name="lampiran_akta" id="lampiran_akta" class="form-control" accept=".jpg,.jpeg,.png" required>
                                 <div id="preview_akta" class="mt-2"></div>
                             </div>
@@ -475,12 +475,41 @@
     form.addEventListener('input', checkFormValidity);
     document.addEventListener('DOMContentLoaded', checkFormValidity);
 
+    // SweetAlert2 konfirmasi sebelum submit
     document.getElementById('dataDiriForm').addEventListener('submit', function(e) {
         saveSignature();
         if (!signatureInput.value) {
-            alert('Tanda tangan orang tua/wali wajib diisi!');
+            Swal.fire({
+                icon: 'warning',
+                title: 'Tanda Tangan Wajib!',
+                text: 'Tanda tangan orang tua/wali wajib diisi!',
+                confirmButtonText: 'OK'
+            });
             e.preventDefault();
+            return;
         }
+        e.preventDefault();
+        Swal.fire({
+            title: 'Konfirmasi Pendaftaran',
+            text: 'Apakah Anda yakin ingin mengirim data pendaftaran ini?',
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonColor: '#198754',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Ya, Kirim!',
+            cancelButtonText: 'Batal'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                form.submit();
+            }
+        });
     });
+    // SweetAlert2 CDN
+    if (typeof Swal === 'undefined') {
+        var script = document.createElement('script');
+        script.src = 'https://cdn.jsdelivr.net/npm/sweetalert2@11';
+        script.defer = true;
+        document.head.appendChild(script);
+    }
 </script>
 @endpush
