@@ -267,6 +267,7 @@
                                                 <button type="button" class="btn btn-outline-danger btn-sm px-3 btn-hapus-data"><i class="bi bi-trash"></i> Hapus</button>
                                             </form>
                                             @endif
+                                            <button type="button" class="btn btn-outline-info btn-sm px-3 btn-cetak-data"><i class="bi bi-printer"></i> Cetak Data</button>
                                         </div>
                                     </td>
                                     </td>
@@ -469,6 +470,65 @@
 
     // Data kop surat untuk JS
     document.addEventListener('DOMContentLoaded', function() {
+        // Cetak satu data pendaftar
+        document.querySelectorAll('.btn-cetak-data').forEach(function(btn) {
+            btn.addEventListener('click', function(e) {
+                var tr = btn.closest('tr');
+                var cells = tr.querySelectorAll('td');
+                // Format data lebih rapi dan profesional
+                var html = `
+                <div style="font-family:Arial,sans-serif;font-size:12pt;max-width:700px;margin:40px auto 20px auto;">
+                    <div style="text-align:center;margin-bottom:18px;">
+                        <img src='{{ asset('logosekolah.png') }}' alt='logo' style='height:48px;width:48px;object-fit:contain;background:transparent;border-radius:50%;box-shadow:none;margin-bottom:8px;'>
+                        <div style="font-size:1.3em;font-weight:700;letter-spacing:0.5px;">SD ISLAM DARUL MUSTAFA MEDAN</div>
+                        <div style="font-size:1em;opacity:0.85;">Jl. Pelajar Timur, Gg. Mawar, No. 26 B, Kel. Binjai, Kec. Medan Denai 20228, Kota Medan.<br>Telp: 081261514441 | Email: syafirarizkiarsyddm@gmail.com</div>
+                        <hr style="margin-top:10px;margin-bottom:0;border-top:2px solid #222;">
+                    </div>
+                    <h2 style="text-align:center;margin-bottom:18px;">Data Pendaftar Siswa</h2>
+                    <table style="width:100%;border-collapse:collapse;border:1px solid #222;box-shadow:0 2px 8px #0001;">
+                        <tr><th colspan="2" style="background:#e3e3e3;text-align:left;padding:8px 12px;font-size:1.05em;border-bottom:1px solid #bbb;">Data Siswa</th></tr>
+                        <tr><td style="padding:6px 10px;border-bottom:1px solid #eee;">Nama</td><td style="padding:6px 10px;border-bottom:1px solid #eee;">${cells[1]?.innerText || ''}</td></tr>
+                        <tr><td style="padding:6px 10px;border-bottom:1px solid #eee;">NIK</td><td style="padding:6px 10px;border-bottom:1px solid #eee;">${cells[2]?.innerText || ''}</td></tr>
+                        <tr><td style="padding:6px 10px;border-bottom:1px solid #eee;">Jenis Kelamin</td><td style="padding:6px 10px;border-bottom:1px solid #eee;">${cells[3]?.innerText || ''}</td></tr>
+                        <tr><td style="padding:6px 10px;border-bottom:1px solid #eee;">Tempat/Tgl Lahir</td><td style="padding:6px 10px;border-bottom:1px solid #eee;">${cells[4]?.innerText || ''}</td></tr>
+                        <tr><td style="padding:6px 10px;border-bottom:1px solid #eee;">Usia</td><td style="padding:6px 10px;border-bottom:1px solid #eee;">${cells[5]?.innerText || ''}</td></tr>
+                        <tr><td style="padding:6px 10px;border-bottom:1px solid #eee;">Agama</td><td style="padding:6px 10px;border-bottom:1px solid #eee;">${cells[6]?.innerText || ''}</td></tr>
+                        <tr><td style="padding:6px 10px;border-bottom:1px solid #eee;">Tinggi/Berat</td><td style="padding:6px 10px;border-bottom:1px solid #eee;">${cells[7]?.innerText || ''}</td></tr>
+                        <tr><td style="padding:6px 10px;border-bottom:1px solid #eee;">Saudara</td><td style="padding:6px 10px;border-bottom:1px solid #eee;">${cells[8]?.innerText || ''}</td></tr>
+                        <tr><td style="padding:6px 10px;border-bottom:1px solid #eee;">Alamat</td><td style="padding:6px 10px;border-bottom:1px solid #eee;">${cells[9]?.innerText || ''}</td></tr>
+                        <tr><th colspan="2" style="background:#e3e3e3;text-align:left;padding:8px 12px;font-size:1.05em;border-bottom:1px solid #bbb;">Data Ayah</th></tr>
+                        <tr><td style="padding:6px 10px;border-bottom:1px solid #eee;">Nama Ayah</td><td style="padding:6px 10px;border-bottom:1px solid #eee;">${cells[10]?.innerText || ''}</td></tr>
+                        <tr><td style="padding:6px 10px;border-bottom:1px solid #eee;">Tempat/Tgl Lahir</td><td style="padding:6px 10px;border-bottom:1px solid #eee;">${cells[11]?.innerText || ''}</td></tr>
+                        <tr><td style="padding:6px 10px;border-bottom:1px solid #eee;">Agama</td><td style="padding:6px 10px;border-bottom:1px solid #eee;">${cells[12]?.innerText || ''}</td></tr>
+                        <tr><td style="padding:6px 10px;border-bottom:1px solid #eee;">Pendidikan</td><td style="padding:6px 10px;border-bottom:1px solid #eee;">${cells[13]?.innerText || ''}</td></tr>
+                        <tr><td style="padding:6px 10px;border-bottom:1px solid #eee;">Pekerjaan</td><td style="padding:6px 10px;border-bottom:1px solid #eee;">${cells[14]?.innerText || ''}</td></tr>
+                        <tr><td style="padding:6px 10px;border-bottom:1px solid #eee;">Telp</td><td style="padding:6px 10px;border-bottom:1px solid #eee;">${cells[15]?.innerText || ''}</td></tr>
+                        <tr><td style="padding:6px 10px;border-bottom:1px solid #eee;">Alamat</td><td style="padding:6px 10px;border-bottom:1px solid #eee;">${cells[16]?.innerText || ''}</td></tr>
+                        <tr><th colspan="2" style="background:#e3e3e3;text-align:left;padding:8px 12px;font-size:1.05em;border-bottom:1px solid #bbb;">Data Ibu</th></tr>
+                        <tr><td style="padding:6px 10px;border-bottom:1px solid #eee;">Nama Ibu</td><td style="padding:6px 10px;border-bottom:1px solid #eee;">${cells[17]?.innerText || ''}</td></tr>
+                        <tr><td style="padding:6px 10px;border-bottom:1px solid #eee;">Tempat/Tgl Lahir</td><td style="padding:6px 10px;border-bottom:1px solid #eee;">${cells[18]?.innerText || ''}</td></tr>
+                        <tr><td style="padding:6px 10px;border-bottom:1px solid #eee;">Agama</td><td style="padding:6px 10px;border-bottom:1px solid #eee;">${cells[19]?.innerText || ''}</td></tr>
+                        <tr><td style="padding:6px 10px;border-bottom:1px solid #eee;">Pendidikan</td><td style="padding:6px 10px;border-bottom:1px solid #eee;">${cells[20]?.innerText || ''}</td></tr>
+                        <tr><td style="padding:6px 10px;border-bottom:1px solid #eee;">Pekerjaan</td><td style="padding:6px 10px;border-bottom:1px solid #eee;">${cells[21]?.innerText || ''}</td></tr>
+                        <tr><td style="padding:6px 10px;border-bottom:1px solid #eee;">Telp</td><td style="padding:6px 10px;border-bottom:1px solid #eee;">${cells[22]?.innerText || ''}</td></tr>
+                        <tr><td style="padding:6px 10px;border-bottom:1px solid #eee;">Alamat</td><td style="padding:6px 10px;border-bottom:1px solid #eee;">${cells[23]?.innerText || ''}</td></tr>
+                        <tr><th colspan="2" style="background:#e3e3e3;text-align:left;padding:8px 12px;font-size:1.05em;border-bottom:1px solid #bbb;">Lampiran</th></tr>
+                        <tr><td style="padding:6px 10px;border-bottom:1px solid #eee;">Fotocopy KK</td><td style="padding:6px 10px;border-bottom:1px solid #eee;">${cells[24]?.innerHTML || ''}</td></tr>
+                        <tr><td style="padding:6px 10px;border-bottom:1px solid #eee;">Fotocopy Akta</td><td style="padding:6px 10px;border-bottom:1px solid #eee;">${cells[25]?.innerHTML || ''}</td></tr>
+                        <tr><td style="padding:6px 10px;border-bottom:1px solid #eee;">Tanda Tangan Ortu</td><td style="padding:6px 10px;border-bottom:1px solid #eee;">${cells[26]?.innerHTML || ''}</td></tr>
+                        <tr><th colspan="2" style="background:#e3e3e3;text-align:left;padding:8px 12px;font-size:1.05em;border-bottom:1px solid #bbb;">Status</th></tr>
+                        <tr><td style="padding:6px 10px;">Status Seleksi</td><td style="padding:6px 10px;">${cells[27]?.innerText || ''}</td></tr>
+                    </table>
+                </div>`;
+                var win = window.open('', '', 'width=900,height=700');
+                win.document.write('<html><head><title>Cetak Data Pendaftar</title></head><body>' + html + '</body></html>');
+                win.document.close();
+                win.focus();
+                setTimeout(function() {
+                    win.print();
+                }, 500);
+            });
+        });
         // Inject kop data for JS
         var kopNama = document.createElement('span');
         kopNama.setAttribute('data-kop-nama', '');
