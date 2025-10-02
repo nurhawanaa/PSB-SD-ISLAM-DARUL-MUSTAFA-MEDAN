@@ -17,7 +17,7 @@ class VerifikasiController extends Controller
             Session::put('recaptcha_verified', true);
             return redirect()->route('pendaftaran.form');
         } else {
-            return redirect()->back()->withErrors(['captcha' => 'Verifikasi captcha gagal, silakan coba lagi.']);
+            return redirect()->back()->withErrors(['captcha' => 'Verifikasi captcha gagal. Silakan ulangi proses verifikasi untuk melanjutkan.']);
         }
     }
 }

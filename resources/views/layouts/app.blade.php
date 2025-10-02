@@ -224,7 +224,7 @@
                 </ul>
                 <ul class="navbar-nav ms-auto mb-2 mb-lg-0 flex-lg-row flex-row align-items-center gap-2">
                     <li class="nav-item d-flex align-items-center justify-content-center gap-2 mb-0">
-                        <span class="navbar-text text-dark d-flex align-items-center"><i class="bi bi-person-circle me-1"></i>{{ Auth::guard('admin')->user()->name ?? 'Admin' }}</span>
+                        <span class="navbar-text text-dark d-flex align-items-center" role="button" style="cursor:pointer;" data-bs-toggle="modal" data-bs-target="#modalEditProfile"><i class="bi bi-person-circle me-1"></i>{{ Auth::guard('admin')->user()->name ?? 'Admin' }}</span>
                         <form method="POST" action="{{ route('admin.logout') }}" class="d-flex align-items-center m-0 p-2" style="height:100%;">
                             @csrf
                             <button type="submit" class="btn btn-outline-dark btn-sm logout d-flex align-items-center m-0 p-2" style="height:40px;"><i class="bi bi-box-arrow-right me-1"></i>Logout</button>
@@ -235,8 +235,56 @@
         </div>
     </nav>
     @endif
+
+    <!-- Modal Edit Akun Admin -->
+    @if(Auth::guard('admin')->check())
+    <div class="modal fade" id="modalEditProfile" tabindex="-1" aria-labelledby="modalEditProfileLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header bg-warning text-white">
+                    <h5 class="modal-title" id="modalEditProfileLabel"><i class="bi bi-pencil me-2"></i>Edit Akun Admin</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form method="POST" action="{{ route('admin.update', Auth::guard('admin')->user()->id) }}">
+                        @csrf
+                        @method('PUT')
+                        <div class="mb-3">
+                            <label for="editName" class="form-label"><i class="bi bi-person-fill me-1"></i>Nama</label>
+                            <input type="text" class="form-control" id="editName" name="name" value="{{ Auth::guard('admin')->user()->name }}" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="editEmail" class="form-label"><i class="bi bi-envelope-fill me-1"></i>Email</label>
+                            <input type="email" class="form-control" id="editEmail" name="email" value="{{ Auth::guard('admin')->user()->email }}" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="editPassword" class="form-label"><i class="bi bi-key-fill me-1"></i>Password (isi jika ingin ganti)</label>
+                            <div class="input-group">
+                                <input type="password" class="form-control" id="editPassword" name="password">
+                                <button type="button" class="btn btn-outline-secondary" onclick="togglePassword('editPassword', this)"><i class="bi bi-eye"></i></button>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-warning w-100">Simpan Perubahan</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    @endif
     @yield('content')
     @stack('scripts')
+    <script>
+        function togglePassword(id, btn) {
+            var input = document.getElementById(id);
+            if (input.type === 'password') {
+                input.type = 'text';
+                btn.innerHTML = '<i class="bi bi-eye-slash"></i>';
+            } else {
+                input.type = 'password';
+                btn.innerHTML = '<i class="bi bi-eye"></i>';
+            }
+        }
+    </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
@@ -258,20 +306,22 @@
     </script>
     @if(session('success'))
     <script>
-        Swal.fire(
-            'Berhasil!',
-            "{{ addslashes(session('success')) }}",
-            'success'
-        );
+        Swal.fire({
+            icon: 'success',
+            title: 'Berhasil!',
+            html: "{{ addslashes(session('success')) }}",
+            confirmButtonText: 'Tutup',
+        });
     </script>
     @endif
     @if(session('error'))
     <script>
-        Swal.fire(
-            'Gagal!',
-            "{{ addslashes(session('error')) }}",
-            'error'
-        );
+        Swal.fire({
+            icon: 'error',
+            title: 'Gagal!',
+            html: "{{ addslashes(session('error')) }}",
+            confirmButtonText: 'Tutup',
+        });
     </script>
     @endif
 </body>

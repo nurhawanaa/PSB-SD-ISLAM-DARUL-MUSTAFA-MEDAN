@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
 use App\Models\Admin;
 
 class AdminAuthController extends Controller
@@ -27,7 +28,7 @@ class AdminAuthController extends Controller
         ])) {
             return redirect()->route('admin.dashboard');
         }
-        return back()->withErrors(['login' => 'email atau password salah']);
+    return back()->withErrors(['login' => 'Email atau kata sandi yang Anda masukkan salah. Silakan coba lagi.']);
     }
 
     public function dashboard()
@@ -49,21 +50,22 @@ class AdminAuthController extends Controller
             return redirect()->route('admin.login');
         }
 
-        $request->validate([
+        $validated = $request->validate([
             'name' => 'required|string|max:100',
             'email' => 'required|email|unique:admins,email',
-            'password' => 'required|string|min:6',
+            'password' => 'required|string',
         ]);
 
         try {
-            $admin = new Admin();
-            $admin->name = $request->name;
-            $admin->email = $request->email;
-            $admin->password = Hash::make($request->password);
-            $admin->save();
+            Admin::create([
+                'name' => $validated['name'],
+                'email' => $validated['email'],
+                'password' => Hash::make($validated['password']),
+            ]);
             return redirect()->route('admin.manage')->with('success', 'Akun admin berhasil ditambahkan!');
         } catch (\Exception $e) {
-            return redirect()->route('admin.manage')->with('error', 'Gagal menambah admin: ' . $e->getMessage());
+            Log::error('Gagal menambah admin', ['error' => $e->getMessage()]);
+            return redirect()->route('admin.manage')->with('error', 'Gagal menambah admin. Silakan coba lagi atau hubungi administrator.');
         }
     }
 
@@ -105,7 +107,7 @@ class AdminAuthController extends Controller
         }
         $admin = Admin::findOrFail($id);
         if ($admin->id == Auth::guard('admin')->id()) {
-            return redirect()->route('admin.manage')->with('error', 'Tidak dapat menghapus akun sendiri!');
+            return redirect()->route('admin.manage')->with('error', 'Anda tidak dapat menghapus akun Anda sendiri. Silakan hubungi admin lain jika ingin menghapus akun ini.');
         }
         $admin->delete();
         return redirect()->route('admin.manage')->with('success', 'Akun admin berhasil dihapus!');
@@ -183,7 +185,7 @@ class AdminAuthController extends Controller
         $tanggal_lahir = $siswa->tanggal_lahir;
         $umur = \Carbon\Carbon::parse($tanggal_lahir)->age;
         if ($status === 'lulus' && $umur < 6) {
-            return redirect()->route('admin.seleksi')->with('error', 'Usia siswa kurang dari 6 tahun, tidak dapat diluluskan.');
+            return redirect()->route('admin.seleksi')->with('error', 'Maaf, usia siswa kurang dari 6 tahun sehingga tidak dapat dinyatakan lulus.');
         }
         $siswa->status = $status;
         $siswa->save();

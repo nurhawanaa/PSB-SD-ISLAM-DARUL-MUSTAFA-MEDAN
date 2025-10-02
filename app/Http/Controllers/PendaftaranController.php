@@ -50,7 +50,7 @@ class PendaftaranController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return redirect()->back()->withErrors($validator)->withInput();
+            return redirect()->back()->withErrors($validator)->withInput()->with('error', 'Data pendaftaran tidak valid. Silakan periksa kembali dan lengkapi data yang diminta.');
         }
 
         $uploadError = null;

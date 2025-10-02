@@ -62,8 +62,6 @@ Route::prefix('admin')->group(function () {
     Route::post('/store', [AdminAuthController::class, 'store'])->name('admin.store');
     Route::put('/update/{id}', [AdminAuthController::class, 'update'])->name('admin.update');
     Route::delete('/destroy/{id}', [AdminAuthController::class, 'destroyAdmin'])->name('admin.destroy');
-    // Tambah admin baru
-    Route::post('/store', [AdminAuthController::class, 'store'])->name('admin.store');
 
     // Logout
     Route::post('/logout', [AdminAuthController::class, 'logout'])->name('admin.logout');

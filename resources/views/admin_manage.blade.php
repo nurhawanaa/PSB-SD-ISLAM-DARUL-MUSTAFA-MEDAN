@@ -63,7 +63,10 @@
                                             </div>
                                             <div class="mb-3">
                                                 <label for="password{{ $admin->id }}" class="form-label">Password (isi jika ingin ganti)</label>
-                                                <input type="password" class="form-control" id="password{{ $admin->id }}" name="password">
+                                                <div class="input-group">
+                                                    <input type="password" class="form-control" id="password{{ $admin->id }}" name="password">
+                                                    <button type="button" class="btn btn-outline-secondary" onclick="togglePassword('password{{ $admin->id }}', this)"><i class="bi bi-eye"></i></button>
+                                                </div>
                                             </div>
                                             <button type="submit" class="btn btn-warning w-100">Simpan Perubahan</button>
                                         </form>
@@ -90,31 +93,22 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    @if(session('success'))
-                    <div class="alert alert-success alert-dismissible fade show" role="alert">
-                        <i class="bi bi-check-circle me-1"></i> {{ session('success') }}
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                    </div>
-                    @endif
-                    @if(session('error'))
-                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                        <i class="bi bi-exclamation-triangle me-1"></i> {{ session('error') }}
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                    </div>
-                    @endif
                     <form method="POST" action="{{ route('admin.store') }}" autocomplete="off">
                         @csrf
                         <div class="mb-3">
                             <label for="name" class="form-label fw-semibold"><i class="bi bi-person-fill me-1"></i>Nama Lengkap</label>
-                            <input type="text" class="form-control shadow-sm" id="name" name="name" placeholder="Nama Admin" required>
+                            <input type="text" class="form-control shadow-sm" id="name" name="name" placeholder="Nama Admin" value="{{ old('name') }}" required autocomplete="name">
                         </div>
                         <div class="mb-3">
                             <label for="email" class="form-label fw-semibold"><i class="bi bi-envelope-fill me-1"></i>Email</label>
-                            <input type="email" class="form-control shadow-sm" id="email" name="email" placeholder="Email Admin" required>
+                            <input type="email" class="form-control shadow-sm" id="email" name="email" placeholder="Email Admin" value="{{ old('email') }}" required autocomplete="email">
                         </div>
                         <div class="mb-3">
                             <label for="password" class="form-label fw-semibold"><i class="bi bi-key-fill me-1"></i>Password</label>
-                            <input type="password" class="form-control shadow-sm" id="password" name="password" placeholder="Password" required>
+                            <div class="input-group">
+                                <input type="password" class="form-control shadow-sm" id="password" name="password" placeholder="Password" required autocomplete="new-password">
+                                <button type="button" class="btn btn-outline-secondary" onclick="togglePassword('password', this)"><i class="bi bi-eye"></i></button>
+                            </div>
                         </div>
                         <button type="submit" class="btn btn-info w-100 fw-bold d-flex align-items-center justify-content-center gap-2">
                             <i class="bi bi-person-plus"></i> Tambah Admin
@@ -125,4 +119,35 @@
         </div>
     </div>
 </div>
+<script>
+    function togglePassword(id, btn) {
+        var input = document.getElementById(id);
+        if (input.type === 'password') {
+            input.type = 'text';
+            btn.innerHTML = '<i class="bi bi-eye-slash"></i>';
+        } else {
+            input.type = 'password';
+            btn.innerHTML = '<i class="bi bi-eye"></i>';
+        }
+    }
+</script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var adminErrorMsg = "{{ $errors->any() ? addslashes(implode('<br>', $errors->all())) : '' }}";
+        if (adminErrorMsg) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Gagal menambah admin!',
+                html: adminErrorMsg,
+                confirmButtonText: 'Tutup',
+                cancelButtonText: 'Batal',
+                showCancelButton: false,
+                footer: '<span style="color:#888">Periksa kembali data yang diisi pada form di atas.</span>'
+            });
+            var modalTambahAdmin = new bootstrap.Modal(document.getElementById('modalTambahAdmin'));
+            modalTambahAdmin.show();
+        }
+    });
+</script>
 @endsection
