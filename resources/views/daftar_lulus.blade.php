@@ -6,7 +6,7 @@
 @section('navbar')
 
 @section('content')
-<div class="container-fluid pt-4 pb-4">
+<div class="container-fluid pt-1 pb-4">
     <div class="row justify-content-center">
         <div class="col-12">
             <div class="card shadow-lg border-0">
