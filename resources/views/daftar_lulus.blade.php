@@ -1,7 +1,8 @@
 @extends('layouts.app')
 
 @section('title', 'Daftar Siswa Lulus - ' . config('app.name'))
-
+@section('navbar_title', 'Daftar Siswa Lulus')
+@section('navbar_icon', 'bi-list-check')
 @section('navbar')
 
 @section('content')
@@ -41,6 +42,7 @@
                                 .table-no-wrap td {
                                     white-space: nowrap;
                                 }
+
                                 .table-no-wrap tbody tr:hover {
                                     background: #f0f8ff;
                                 }

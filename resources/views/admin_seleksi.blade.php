@@ -1,7 +1,8 @@
 @extends('layouts.app')
 
 @section('title', 'Seleksi Siswa - ' . config('app.name'))
-
+@section('navbar_title', 'Seleksi Siswa')
+@section('navbar_icon', 'bi-person-check')
 @section('navbar')
 
 @section('content')

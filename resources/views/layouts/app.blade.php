@@ -201,9 +201,9 @@
     @elseif(Auth::guard('admin')->check())
     <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm position-fixed w-100 top-0" style="z-index:1040; padding:8px; border-bottom:1px solid #e5e7eb;">
         <div class="container-fluid d-flex align-items-center" style="min-height:56px;">
-            <a class="navbar-brand fw-bold text-dark d-flex align-items-center" href="{{ route('admin.dashboard') }}">
-                <i class="bi bi-speedometer2 me-2"></i>Admin Dashboard
-            </a>
+            <div class="navbar-brand fw-bold text-dark d-flex align-items-center">
+                <i class="bi @yield('navbar_icon', 'bi-speedometer2') me-2"></i>@yield('navbar_title', 'Admin Dashboard')
+            </div>
             <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#adminNavbar" aria-controls="adminNavbar" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
