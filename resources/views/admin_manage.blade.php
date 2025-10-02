@@ -34,10 +34,10 @@
                             <td>{{ $admin->created_at->format('d-m-Y H:i') }}</td>
                             <td>
                                 <button class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#modalEditAdmin{{ $admin->id }}"><i class="bi bi-pencil"></i></button>
-                                <form method="POST" action="{{ route('admin.destroy', $admin->id) }}" style="display:inline-block;" onsubmit="return confirm('Yakin ingin menghapus admin ini?');">
+                                <form method="POST" action="{{ route('admin.destroy', $admin->id) }}" style="display:inline-block;" class="form-hapus-admin">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="submit" class="btn btn-danger btn-sm"><i class="bi bi-trash"></i></button>
+                                    <button type="submit" class="btn btn-danger btn-sm btn-hapus-admin"><i class="bi bi-trash"></i></button>
                                 </form>
                             </td>
                         </tr>
@@ -130,6 +130,29 @@
             btn.innerHTML = '<i class="bi bi-eye"></i>';
         }
     }
+
+    // Konfirmasi hapus admin dengan SweetAlert2
+    document.addEventListener('DOMContentLoaded', function() {
+        document.querySelectorAll('.form-hapus-admin').forEach(function(form) {
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                Swal.fire({
+                    title: 'Konfirmasi Hapus Akun',
+                    text: 'Apakah Anda yakin ingin menghapus akun admin ini? Tindakan ini tidak dapat dibatalkan.',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#d33',
+                    cancelButtonColor: '#3085d6',
+                    confirmButtonText: 'Ya, hapus!',
+                    cancelButtonText: 'Batal'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        form.submit();
+                    }
+                });
+            });
+        });
+    });
 </script>
 
 <script>
