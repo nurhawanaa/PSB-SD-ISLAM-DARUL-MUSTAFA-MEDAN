@@ -41,6 +41,76 @@ class AdminAuthController extends Controller
         return view('admin_dashboard', compact('total_pendaftar', 'total_lulus', 'total_belum_lulus'));
     }
 
+    // Proses tambah admin baru
+    public function store(Request $request)
+    {
+        // Hanya admin yang sudah login bisa akses
+        if (!Auth::guard('admin')->check()) {
+            return redirect()->route('admin.login');
+        }
+
+        $request->validate([
+            'name' => 'required|string|max:100',
+            'email' => 'required|email|unique:admins,email',
+            'password' => 'required|string|min:6',
+        ]);
+
+        try {
+            $admin = new Admin();
+            $admin->name = $request->name;
+            $admin->email = $request->email;
+            $admin->password = Hash::make($request->password);
+            $admin->save();
+            return redirect()->route('admin.manage')->with('success', 'Akun admin berhasil ditambahkan!');
+        } catch (\Exception $e) {
+            return redirect()->route('admin.manage')->with('error', 'Gagal menambah admin: ' . $e->getMessage());
+        }
+    }
+
+    // Halaman manajemen admin
+    public function manage()
+    {
+        if (!Auth::guard('admin')->check()) {
+            return redirect()->route('admin.login');
+        }
+        $admins = Admin::orderBy('created_at', 'desc')->get();
+        return view('admin_manage', compact('admins'));
+    }
+
+    // Update admin
+    public function update(Request $request, $id)
+    {
+        if (!Auth::guard('admin')->check()) {
+            return redirect()->route('admin.login');
+        }
+        $admin = Admin::findOrFail($id);
+        $request->validate([
+            'name' => 'required|string|max:100',
+            'email' => 'required|email|unique:admins,email,' . $admin->id,
+        ]);
+        $admin->name = $request->name;
+        $admin->email = $request->email;
+        if ($request->filled('password')) {
+            $admin->password = Hash::make($request->password);
+        }
+        $admin->save();
+        return redirect()->route('admin.manage')->with('success', 'Data admin berhasil diubah!');
+    }
+
+    // Hapus admin
+    public function destroyAdmin($id)
+    {
+        if (!Auth::guard('admin')->check()) {
+            return redirect()->route('admin.login');
+        }
+        $admin = Admin::findOrFail($id);
+        if ($admin->id == Auth::guard('admin')->id()) {
+            return redirect()->route('admin.manage')->with('error', 'Tidak dapat menghapus akun sendiri!');
+        }
+        $admin->delete();
+        return redirect()->route('admin.manage')->with('success', 'Akun admin berhasil dihapus!');
+    }
+
     public function seleksi(Request $request)
     {
         if (!Auth::guard('admin')->check()) {

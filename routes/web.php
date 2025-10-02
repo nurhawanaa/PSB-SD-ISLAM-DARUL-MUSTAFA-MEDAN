@@ -57,6 +57,14 @@ Route::prefix('admin')->group(function () {
     Route::put('/seleksi/{id}', [AdminAuthController::class, 'updateSeleksi'])->name('admin.seleksi.update');
     Route::delete('/seleksi/{id}', [AdminAuthController::class, 'destroy'])->name('admin.seleksi.delete');
 
+    // Manajemen admin
+    Route::get('/manage', [AdminAuthController::class, 'manage'])->name('admin.manage');
+    Route::post('/store', [AdminAuthController::class, 'store'])->name('admin.store');
+    Route::put('/update/{id}', [AdminAuthController::class, 'update'])->name('admin.update');
+    Route::delete('/destroy/{id}', [AdminAuthController::class, 'destroyAdmin'])->name('admin.destroy');
+    // Tambah admin baru
+    Route::post('/store', [AdminAuthController::class, 'store'])->name('admin.store');
+
     // Logout
     Route::post('/logout', [AdminAuthController::class, 'logout'])->name('admin.logout');
 });

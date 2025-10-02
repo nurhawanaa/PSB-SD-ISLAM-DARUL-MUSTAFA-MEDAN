@@ -218,6 +218,9 @@
                     <li class="nav-item d-flex align-items-center">
                         <a class="nav-link @if(Route::currentRouteName() === 'pendaftaran.lulus') active @endif text-dark d-flex align-items-center" href="{{ route('pendaftaran.lulus') }}"><i class="bi bi-list-check me-1"></i>Daftar Lulus</a>
                     </li>
+                    <li class="nav-item d-flex align-items-center">
+                        <a class="nav-link @if(Route::currentRouteName() === 'admin.manage') active @endif text-dark d-flex align-items-center" href="{{ route('admin.manage') }}"><i class="bi bi-people-fill me-1"></i>Manajemen Admin</a>
+                    </li>
                 </ul>
                 <ul class="navbar-nav ms-auto mb-2 mb-lg-0 flex-lg-row flex-row align-items-center gap-2">
                     <li class="nav-item d-flex align-items-center justify-content-center gap-2 mb-0">
@@ -235,6 +238,7 @@
     @yield('content')
     @stack('scripts')
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             var navbarCollapse = document.getElementById('adminNavbar');
@@ -252,6 +256,24 @@
             }
         });
     </script>
+    @if(session('success'))
+    <script>
+        Swal.fire(
+            'Berhasil!',
+            "{{ addslashes(session('success')) }}",
+            'success'
+        );
+    </script>
+    @endif
+    @if(session('error'))
+    <script>
+        Swal.fire(
+            'Gagal!',
+            "{{ addslashes(session('error')) }}",
+            'error'
+        );
+    </script>
+    @endif
 </body>
 
 </html>
